@@ -53,12 +53,10 @@ export default function SignUpPage({ setUser }) {
   return (
     <>
       <h2>Schedula for clients</h2>
-      <h4>Create an account or log in to book and manage your appointments.</h4>
+      <h6>Create an account or log in to book and manage your appointments.</h6>
             <div>
-        <h3>Or sign up with Google:</h3>
         <GoogleLogin
           onSuccess={handleGoogleSuccess}
-          onError={() => console.log('Google login failed')}
         />
       </div>
       <form autoComplete="off" onSubmit={handleSumbit}>
