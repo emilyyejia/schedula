@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { signUp } from '../../services/authService';
+import { GoogleLogin } from '@react-oauth/google';
 
-export default function SignUpPage({setUser}) {
+export default function SignUpPage({ setUser }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,7 +11,7 @@ export default function SignUpPage({setUser}) {
     confirm: '',
   });
   const [errorMsg, setErrorMsg] = useState('');
-   
+
   const navigate = useNavigate();
 
   function handleChange(evt) {
@@ -20,21 +21,47 @@ export default function SignUpPage({setUser}) {
   async function handleSumbit(evt) {
     evt.preventDefault();
     try {
-       const user = await signUp(formData);
-       setUser(user);
-       navigate('/posts');
+      const user = await signUp(formData);
+      setUser(user);
+      navigate('/posts');
     } catch (err) {
-        setErrorMsg('Sign Up Failed -Try Again');
-        console.log(err);
+      setErrorMsg('Sign Up Failed -Try Again');
+      console.log(err);
     }
 
+  }
+
+  async function handleGoogleSuccess(credentialResponse) {
+    const token = credentialResponse.credential;
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/googlelogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      });
+      await res.json();
+
+    } catch (err) {
+      setErrorMsg('Google Sign Up Failed -Try Again');
+
+    }
   }
   const disable = formData.password !== formData.confirm;
 
   return (
     <>
-      <h2>Sign Up!</h2>
-      <form autoComplete="off" onSubmit={handleSumbit}> 
+      <h2>Schedula for clients</h2>
+      <h4>Create an account or log in to book and manage your appointments.</h4>
+            <div>
+        <h3>Or sign up with Google:</h3>
+        <GoogleLogin
+          onSuccess={handleGoogleSuccess}
+          onError={() => console.log('Google login failed')}
+        />
+      </div>
+      <form autoComplete="off" onSubmit={handleSumbit}>
         <label>Name</label>
         <input
           type="text"
@@ -72,6 +99,7 @@ export default function SignUpPage({setUser}) {
         </button>
       </form>
       <p className="error-message">&nbsp;{errorMsg}</p>
+
     </>
   );
 }

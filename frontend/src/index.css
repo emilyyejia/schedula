@@ -45,14 +45,14 @@ button:hover {
 }
 
 button:disabled {
-  background-color: grey;
+  background-color: black;
 }
 
 form {
   display: grid;
   gap: 1.2vmin;
   padding: 4vmin;
-  border: 0.5vmin solid #1a1a1a;
+  border: 0.5vmin grey;
   border-radius: 1vmin;
 }
 
