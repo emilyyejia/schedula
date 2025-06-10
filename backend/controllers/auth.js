@@ -1,13 +1,14 @@
-const { OAuth2Client } = require('google-auth-library');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
-const bcrypt = require('bcrypt');
-const client = new OAuth2Client('90373314337-t7rnpff46mk6t969akec3ndtqvl7aicp.apps.googleusercontent.com'); // Your Client ID
+const { OAuth2Client } = require("google-auth-library");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 module.exports = {
-    signUp,
-    logIn,
-    googleLogIn,
+  signUp,
+  logIn,
+  googleLogIn,
+  checkUser,
 };
 async function googleLogIn(req, res) {
   try {
@@ -24,10 +25,10 @@ async function googleLogIn(req, res) {
       user = await User.create({ googleId, email, name, avatar: picture });
     }
     const appToken = createJWT(user);
-    res.json({user: user, token: appToken});
+    res.json({ user: user, token: appToken });
   } catch (err) {
-    console.error('Google login error:', err);
-    res.status(400).json({ message: 'Google Login Failed' });
+    console.error("Google login error:", err);
+    res.status(400).json({ message: "Google Login Failed" });
   }
 }
 async function signUp(req, res) {
@@ -37,7 +38,7 @@ async function signUp(req, res) {
     res.json(token);
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: 'Duplicate Email' });
+    res.status(400).json({ message: "Duplicate Email" });
   }
 }
 
@@ -51,11 +52,20 @@ async function logIn(req, res) {
     res.json(token);
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: 'Bad Credentials' });
+    res.status(400).json({ message: "Bad Credentials" });
   }
 }
 
-
+async function checkUser(req, res) {
+  try {
+    const user = await User.findOne({ email: req.query.email });
+    if (!user) {
+      return res.json({ exists: false });
+    } else res.json({ exists: true });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+}
 /*--- Helper Functions ---*/
 
 function createJWT(user) {
@@ -63,6 +73,6 @@ function createJWT(user) {
     // data payload
     { user },
     process.env.SECRET,
-    { expiresIn: '24h' }
+    { expiresIn: "24h" }
   );
 }
