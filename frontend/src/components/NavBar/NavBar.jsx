@@ -19,30 +19,53 @@ export default function NavBar({ user }) {
 
   }
   return (
-    
-    <Navbar expand={false} expanded={expanded} onToggle={setExpanded} className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand as={NavLink} to="/" className="my-navbar-brand">Schedula</Navbar.Brand>
-        <Navbar.Toggle aria-controls="collapsed-navbar" />
-        <Navbar.Collapse id="collapsed-navbar">
-          <Nav align="end" onClick={handleMenu}>
-            {user ? (
-              <>
-                <span className="navbar-text">Welcome, {user.name}</span>
-                <Nav.Link as={NavLink} to="/posts">Post List</Nav.Link>
-                <Nav.Link as={NavLink} to="/posts/new">New Post</Nav.Link>
-                <Nav.Link as={NavLink} to="/" onClick={handleLogOut}>Log Out</Nav.Link>
 
-              </>
-            ) : (
-              <>
-           
-                <Nav.Link as={NavLink} to="/login">Log In</Nav.Link>
-                <Nav.Link as={NavLink} to="/signup">Sign Up</Nav.Link>
-              </>
-            )}
-          </Nav>
-        </Navbar.Collapse>
+    <Navbar expand={false} expanded={expanded} onToggle={setExpanded} className="bg-body-tertiary">
+    <Container>
+        <Navbar.Brand as={NavLink} to="/" className="my-navbar-brand">Schedula</Navbar.Brand>
+
+        <div className="d-flex align-items-center ms-auto">
+          {user?.avatar && (
+            <div className="p-2 me-3">
+              <img
+                src={user.avatar}
+                width="34"
+                height="34"
+                className="rounded-circle my-nav-bar-avatar"
+                referrerPolicy="no-referrer"
+                alt="Avatar"
+              />
+            </div>
+          )}
+          <div className="dropdown">
+            <button
+              className="navbar-toggler"
+              type="button"
+              id="dropdownToggler"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              style={{ boxShadow: 'none' }}
+            >
+            <span className="navbar-toggler-icon"></span>
+            </button>
+            <ul className="dropdown-menu mt-3 dropdown-menu-end" aria-labelledby="dropdownMenu2">
+              {user ? (
+                <>
+                  <li><span className="dropdown-item-text fw-bold py-2">Welcome, {user.name}</span></li>
+                  <li><NavLink className="dropdown-item " to="/posts">Post List</NavLink></li>
+                  <li><NavLink className="dropdown-item " to="/posts/new">New Post</NavLink></li>
+                  <li><Link to="/" className="dropdown-item "  onClick={handleLogOut}>Log Out</Link></li>
+                </>
+              ) : (
+                <>
+                  <li><NavLink className="dropdown-item " to="/login">Log In</NavLink></li>
+                  <li><NavLink className="dropdown-item " to="/signup">Sign Up</NavLink></li>
+                </>
+              )}
+            </ul>
+          </div>
+        </div>
       </Container>
     </Navbar>
   );

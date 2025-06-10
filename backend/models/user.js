@@ -7,6 +7,8 @@ const SALT_ROUNDS = 6;
 const userSchema = new Schema(
   {
     name: { type: String, required: true },
+    googleId: { type: String, unique: true, sparse: true},
+    avatar: { type: String},
     email: {
       type: String,
       unique: true,
@@ -16,7 +18,10 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+      // Password required only if not using Google OAuth
+      return !this.googleId;
+    },
     },
   },
   {

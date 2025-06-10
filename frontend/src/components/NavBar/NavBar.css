@@ -2,3 +2,25 @@
   font-size: 1.8rem;
   font-weight: bold;
 }
+
+.my-nav-bar-avatar {
+  margin-right: 1%;
+}
+
+.my-nav-bar{
+  position: absolute !important;
+  left: auto;
+  right: 0;
+  z-index: 1050;
+}
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: transparent !important;
+  color: inherit !important;
+}

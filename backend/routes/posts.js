@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const postsCtrl = require('../controllers/posts');
+router.use(require('../middleware/checkToken'));
 const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 
 // All paths start with '/api/auth'
