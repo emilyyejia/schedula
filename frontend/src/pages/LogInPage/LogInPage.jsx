@@ -8,7 +8,7 @@ export default function LogInPage({ setUser }) {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   console.log(queryParams);
-  const email = decodeURIComponent(queryParams.get('email'));
+  const email = queryParams.get('email') ? decodeURIComponent(queryParams.get('email')): '';
   console.log(email);
   
   const [formData, setFormData] = useState({
