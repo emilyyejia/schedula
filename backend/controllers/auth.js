@@ -13,6 +13,7 @@ module.exports = {
 async function googleLogIn(req, res) {
   try {
     const { token } = req.body;
+    console.log(token);
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,

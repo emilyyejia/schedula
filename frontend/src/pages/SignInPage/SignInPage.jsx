@@ -39,7 +39,7 @@ export default function SignInPage({ setUser }) {
     console.log(credentialResponse);
     const token = credentialResponse.credential;
     try {
-      const res = await fetch('http://localhost:3000/api/auth/googlelogin', {
+      const res = await fetch('/api/auth/googlelogin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,6 +47,7 @@ export default function SignInPage({ setUser }) {
         body: JSON.stringify({ token }),
       });
       const body = await res.json();
+      console.log(body);
       setUser(body.user);
       localStorage.setItem('token', body.token);
       navigate('/posts');
