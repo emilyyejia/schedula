@@ -47,7 +47,6 @@ export default function SignInPage({ setUser }) {
 
     }
   }
-  const disable = formData.password !== formData.confirm;
 
   return (
     <div className="container mt-4">
@@ -78,7 +77,7 @@ export default function SignInPage({ setUser }) {
             onChange={handleChange}
             required
           />
-          <button type="submit" className='mt-3 btn active' disabled={disable}>
+          <button type="submit" className='mt-3 btn active'>
             Continue
           </button>
 

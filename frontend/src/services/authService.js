@@ -20,7 +20,7 @@ export async function checkUser(email) {
 
 export async function googleLogin(token) {
   const res = await sendRequest(`${BASE_URL}/googlelogin`, "POST", { token });
-  localStorage.setItem('token', res.token);
+  localStorage.setItem("token", res.token);
   return res;
 }
 
