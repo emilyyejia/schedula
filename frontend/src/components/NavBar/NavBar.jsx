@@ -59,7 +59,7 @@ export default function NavBar({ user }) {
                 </>
               ) : (
                 <>
-                  <li><NavLink className="dropdown-item " to="/signin">Get Started</NavLink></li>
+                  <li><NavLink className="dropdown-item " to="/signin">Sign In</NavLink></li>
                 </>
               )}
             </ul>

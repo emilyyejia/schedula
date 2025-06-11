@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { checkUser } from '../../services/authService';
 import { GoogleLogin } from '@react-oauth/google';
 import { Form } from 'react-bootstrap';
+import { googleLogin } from '../../services/authService';
 export default function SignInPage({ setUser }) {
   const [formData, setFormData] = useState({ email: '' });
   const [errorMsg, setErrorMsg] = useState('');
@@ -36,20 +37,10 @@ export default function SignInPage({ setUser }) {
   }
 
   async function handleGoogleSuccess(credentialResponse) {
-    console.log(credentialResponse);
     const token = credentialResponse.credential;
-    try {
-      const res = await fetch('/api/auth/googlelogin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),
-      });
-      const body = await res.json();
-      console.log(body);
+    try {   
+      const body = await googleLogin(token);
       setUser(body.user);
-      localStorage.setItem('token', body.token);
       navigate('/posts');
     } catch (err) {
       setErrorMsg('Google Sign Up Failed -Try Again');

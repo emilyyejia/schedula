@@ -1,20 +1,13 @@
 const path = require("path"); // Built into Node
 const express = require("express");
 const logger = require("morgan");
-const cors = require("cors");
 const app = express();
-
 // Process the secrets/config vars in .env
 require("dotenv").config();
 
 // Connect to the database
 require("./db");
-app.use(function (req, res, next) {
-  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
-  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-  next();
-});
-// app.use(cors({ origin: 'http://localhost:5173' }));
+
 app.use(logger("dev"));
 // Serve static assets from the frontend's built code folder (dist)
 app.use(express.static(path.join(__dirname, "../frontend/dist")));

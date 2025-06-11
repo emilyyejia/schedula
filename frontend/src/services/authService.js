@@ -13,10 +13,15 @@ export async function logIn(credentials) {
 }
 
 export async function checkUser(email) {
-  const url = `/api/auth/checkuser?email=${encodeURIComponent(email)}`;
-  const user = await sendRequest(url, 'GET');
-  console.log(user.exists);
+  const url = `${BASE_URL}/checkuser?email=${encodeURIComponent(email)}`;
+  const user = await sendRequest(url, "GET");
   return user.exists;
+}
+
+export async function googleLogin(token) {
+  const res = await sendRequest(`${BASE_URL}/googlelogin`, "POST", { token });
+  localStorage.setItem('token', res.token);
+  return res;
 }
 
 export function getUser() {
