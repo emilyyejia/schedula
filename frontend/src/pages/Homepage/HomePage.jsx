@@ -1,3 +1,8 @@
+import Calendar from "../../components/Calendar/Calendar"
+
 export default function HomePage () {
-    return <h1>Calendar</h1>
+    return <>
+    <Calendar></Calendar>
+    </>
+
 }
