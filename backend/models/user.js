@@ -7,6 +7,12 @@ const SALT_ROUNDS = 6;
 const userSchema = new Schema(
   {
     name: { type: String, required: true },
+    role: { 
+      type: String, 
+      enum: ['student', 'teacher'], 
+      required: true,
+      default: 'student'
+    },
     googleId: { type: String, unique: true, sparse: true},
     avatar: { type: String},
     email: {
