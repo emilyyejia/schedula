@@ -3,9 +3,3 @@
   grid-template-rows: auto auto;
 }
 
-#main-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}

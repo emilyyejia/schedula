@@ -1,14 +1,16 @@
-.calendar-header {
 
-  padding: 1rem;
-  text-align: left;
-  font-size: 1.5rem;
-  font-weight: bold;
-
-}
 .btn {
     border-color: black;
     color: black;
 
 }
-
+.calendar {
+    background-color: white;
+}
+.custom-btn:hover,
+.custom-btn:active,
+.custom-btn:focus {
+  background-color: #6c757d !important; /* Bootstrap 'secondary' grey */
+  color: white !important;
+  border-color: #6c757d !important;
+}
