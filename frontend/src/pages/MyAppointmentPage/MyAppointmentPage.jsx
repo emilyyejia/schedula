@@ -5,7 +5,7 @@ import * as appointmentService from '../../services/appointmentService';
 
 export default function MyAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
-  const startDate = new Date();
+  const startDate = new Date().toISOString().split('T')[0];
   const navigate = useNavigate();
   const teacherId = '684aee87bdcb887e179a98d5';
   useEffect(() => {

@@ -5,7 +5,7 @@ import * as appointmentService from '../../services/appointmentService';
 
 export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-US').split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const teacherId = '684aee87bdcb887e179a98d5';
   const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
@@ -21,24 +21,24 @@ export default function NewAppointmentPage() {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       dates.push({
+        value: date.toISOString().split('T')[0],
         dayNum: date.getDate(),
-        weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
-        value: date.toLocaleDateString('en-US')
+        weekday: date.toLocaleDateString('en-US', { weekday: 'short' })
+        
       });
     }
-
     return dates;
   };
   const sevenDays = getOneWeek();
   useEffect(() => {
     async function fetchAppointments() {
       const appointments = await appointmentService.index(selectedDate, teacherId);
-      console.log(appointments);
       setAppointments(appointments);
+      setTimeSlots(renderTimeSlots(appointments));
+     
     }
     fetchAppointments();
-    setTimeSlots(renderTimeSlots());
-    setSelectedSlot();
+  
   }, [selectedDate]);
 
   const handleDateClick = (date) => {
@@ -49,9 +49,17 @@ export default function NewAppointmentPage() {
     console.log('time', time);
     setSelectedSlot(time);
   }
-  const renderTimeSlots = () => {
+  const renderTimeSlots = (appts) => {
     const slots = [];
-    const filtered = appointments.filter((appt) => new Date(appt.date).toISOString().split('T')[0] === selectedDate);
+    console.log('appointments');
+    console.log(appts);
+    const filtered = appts.filter((appt) => {
+      const apptDt = new Date(appt.date).toISOString().split('T')[0];
+      console.log('debug june-16');
+      console.log(apptDt);
+      return apptDt === selectedDate
+
+    });
     console.log('filtered', filtered);
     for (let i = 0; i < 8; i++) {
       let hour = 10 + i;
@@ -67,7 +75,6 @@ export default function NewAppointmentPage() {
         isBooked: false
       });
     }
-    console.log(slots);
     return slots;
   }
   const handleSubmit = async (evt) => {
