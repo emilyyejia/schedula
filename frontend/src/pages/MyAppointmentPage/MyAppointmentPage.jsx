@@ -12,19 +12,25 @@ export default function MyAppointmentPage () {
         }
         fetchAppointments();
     }, [startDate]);
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
     return (
     <>
       <h1>Upcoming Appointments</h1>
-      {appointments.length ? 
-        <ul>
-            {appointments.map((appointment) => <li key={appointment._id}>{appointment.date}</li>)}
+      <div className="container mt-4">
+        {appointments.length ? 
+        <ul className="list-group">
+            {appointments.map((appointment) => <li key={appointment._id} className="list-group-item">
+              {formatDate(appointment.date)}{appointment.startTime}</li>)}
 
         </ul>
         :
         <p>No Appointments Yet!</p>
-      
       }
-
+      </div>
     </>
 
     );

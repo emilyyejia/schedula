@@ -38,7 +38,7 @@ export default function NewAppointmentPage() {
   }, [selectedDate]);
 
   const handleDateClick = (date) => {
-    console.log('date',date);
+    console.log('date', date);
     setSelectedDate(date);
   }
   const handleSlotClick = (time) => {
@@ -47,16 +47,16 @@ export default function NewAppointmentPage() {
   }
   const renderTimeSlots = () => {
     const slots = [];
-    const filtered = appointments.filter( (appt) => new Date(appt.date).toISOString().split('T')[0] === selectedDate);
-    console.log('filtered',filtered);
+    const filtered = appointments.filter((appt) => new Date(appt.date).toISOString().split('T')[0] === selectedDate);
+    console.log('filtered', filtered);
     for (let i = 0; i < 8; i++) {
-      let hour = 10+i;
+      let hour = 10 + i;
       let time = `${hour}:00:00`;
       if (filtered.some(appt => appt.startTime === time)) {
-          slots.push({
-        time: time,
-        isBooked: true
-      });
+        slots.push({
+          time: time,
+          isBooked: true
+        });
       }
       else slots.push({
         time: time,
@@ -66,22 +66,22 @@ export default function NewAppointmentPage() {
     console.log(slots);
     return slots;
   }
-const handleSubmit = async(evt) => {
-  evt.preventDefault();
-  console.log('slot',selectedSlot);
-  const appointmentDate = {
-    date:new Date(selectedDate),
-    startTime: selectedSlot,
-    teacher: '684aee87bdcb887e179a98d5'
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    console.log('slot', selectedSlot);
+    const appointmentDate = {
+      date: new Date(selectedDate),
+      startTime: selectedSlot,
+      teacher: '684aee87bdcb887e179a98d5'
+    }
+    console.log(appointmentDate);
+    await appointmentService.create(appointmentDate);
+    navigate('/appointments');
+
+
   }
-  console.log(appointmentDate);
-  await appointmentService.create(appointmentDate);
-  navigate('/appointments');
 
 
-}
-
-  
 
   return (
     <div className="bg-white">
@@ -106,26 +106,31 @@ const handleSubmit = async(evt) => {
               </button>
             ))}
 
-    
+
           </div>
-               <div className="d-flex flex-wrap gap-2 mt-2">
-                <form onSubmit={handleSubmit}>
-                  {timeSlots.map((slot, i) => (
+          <div className="d-flex flex-wrap gap-2 mt-2">
+            <form onSubmit={handleSubmit}>
+              {timeSlots.map((slot, i) => (
                 <button
-                key={slot.time} 
-                type="button"
-                className={`btn border ${slot.isBooked ? 'btn-secondary' : 'btn-light'}`} 
-                disabled={slot.isBooked} 
-                onClick={() => handleSlotClick(slot.time)}
-                > 
+                  key={slot.time}
+                  type="button"
+                  className={`btn border ${slot.isBooked
+                    ? 'btn-secondary'
+                    : selectedSlot === slot.time
+                      ? 'btn-secondary'
+                      : 'btn-light'
+                    }`}
+                  disabled={slot.isBooked}
+                  onClick={() => handleSlotClick(slot.time)}
+                >
                   {slot.time}
                 </button>
               ))}
               <button type="submit" className="btn border btn-light"> Book </button>
 
-                </form>
-              
-            </div>
+            </form>
+
+          </div>
         </div>
       </div>
 
