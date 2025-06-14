@@ -7,11 +7,15 @@ export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const teacherId = '684aee87bdcb887e179a98d5';
+  const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
-  const getTenDays = () => {
+  const [selectedSlot, setSelectedSlot] = useState('');
+  const navigate = useNavigate();
+  const getOneWeek = () => {
     const dates = [];
-    for (let i = 0; i < 10; i++) {
-      const date = new Date(selectedDate);
+    for (let i = 0; i < 7; i++) {
+      const today = new Date();
+      const date = new Date(today);
       date.setDate(date.getDate() + i);
       dates.push({
         dayNum: date.getDate(),
@@ -21,7 +25,7 @@ export default function NewAppointmentPage() {
     }
     return dates;
   };
-  const tenDays = getTenDays();
+  const sevenDays = getOneWeek();
   useEffect(() => {
     async function fetchAppointments() {
       const appointments = await appointmentService.index(selectedDate, teacherId);
@@ -30,18 +34,21 @@ export default function NewAppointmentPage() {
     }
     fetchAppointments();
     setTimeSlots(renderTimeSlots());
+    setSelectedSlot();
   }, [selectedDate]);
 
   const handleDateClick = (date) => {
-    console.log(date);
+    console.log('date',date);
     setSelectedDate(date);
   }
-
+  const handleSlotClick = (time) => {
+    console.log('time', time);
+    setSelectedSlot(time);
+  }
   const renderTimeSlots = () => {
-    console.log("appointments: "+appointments.lent)
     const slots = [];
-    const filtered = appointments.filter(appt => appt.date.startsWith(selectedDate));
-    console.log(filtered);
+    const filtered = appointments.filter( (appt) => new Date(appt.date).toISOString().split('T')[0] === selectedDate);
+    console.log('filtered',filtered);
     for (let i = 0; i < 8; i++) {
       let hour = 10+i;
       let time = `${hour}:00:00`;
@@ -59,13 +66,26 @@ export default function NewAppointmentPage() {
     console.log(slots);
     return slots;
   }
+const handleSubmit = async(evt) => {
+  evt.preventDefault();
+  console.log('slot',selectedSlot);
+  const appointmentDate = {
+    date:new Date(selectedDate),
+    startTime: selectedSlot,
+    teacher: '684aee87bdcb887e179a98d5'
+  }
+  console.log(appointmentDate);
+  await appointmentService.create(appointmentDate);
+  navigate('/appointments');
 
 
-  const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
+}
+
+  
 
   return (
-    <>
-      <div className="calendar container mt-4">
+    <div className="bg-white">
+      <div className="calendar container mt-4 ">
         <h2 className="mb-3">Schedula for clients</h2>
         <div className='mb-4 d-flex justify-content-between gap-2'>
         </div>
@@ -73,7 +93,7 @@ export default function NewAppointmentPage() {
         <h5 className="mb-3">{monthYear}</h5>
         <div className="container mt-4">
           <div className="d-flex overflow-auto mb-3">
-            {tenDays.map(({ dayNum, weekday, value }) => (
+            {sevenDays.map(({ dayNum, weekday, value }) => (
               <button
                 key={value}
                 className="btn btn-outline-secondary rounded-circle me-2 d-flex justify-content-center align-items-center custom-btn"
@@ -89,15 +109,26 @@ export default function NewAppointmentPage() {
     
           </div>
                <div className="d-flex flex-wrap gap-2 mt-2">
-              {timeSlots.map((slot, i) => (
-                <div key={slot.time} className="btn btn-light border"> 
+                <form onSubmit={handleSubmit}>
+                  {timeSlots.map((slot, i) => (
+                <button
+                key={slot.time} 
+                type="button"
+                className={`btn border ${slot.isBooked ? 'btn-secondary' : 'btn-light'}`} 
+                disabled={slot.isBooked} 
+                onClick={() => handleSlotClick(slot.time)}
+                > 
                   {slot.time}
-                </div>
+                </button>
               ))}
+              <button type="submit" className="btn border btn-light"> Book </button>
+
+                </form>
+              
             </div>
         </div>
       </div>
 
-    </>
+    </div>
   );
 }

@@ -7,8 +7,8 @@ const params = new URLSearchParams({ date: startDate, teacherId });
   return sendRequest(`${BASE_URL}?${params.toString()}`, 'GET');
 }
 
-export async function create(Data) {
-  return sendRequest(BASE_URL, 'POST', Data);
+export async function create(appointmentData) {
+  return sendRequest(BASE_URL, 'POST', appointmentData );
 
 }
 

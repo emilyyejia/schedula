@@ -31,26 +31,25 @@ async function index(req, res) {
 
 async function create(req, res) {
   try {
-    const dateStr=req.query.date;
+    
     const user = req.user;
     console.log(user);
     let appointment = {};
-    const { date, time } = req.body;
+    const { date, startTime, teacher } = req.body;
     if (user.role === "teacher") {
       appointment = {
         date, 
-        startTime: time, 
+        startTime, 
         status: "blocked", 
         teacher: req.user._id
       };
     } else {
-      const teacherId = req.body.teacherId;
        appointment = {
         date, 
-        startTime: time, 
-        status: "blocked", 
+        startTime, 
+        status: "booked", 
         student: req.user._id, 
-        teacher: teacherId
+        teacher: teacher
       };
     }
     console.log(appointment);
