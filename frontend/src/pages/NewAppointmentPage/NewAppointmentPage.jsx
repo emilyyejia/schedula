@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import * as appointmentService from '../../services/appointmentService';
 
 
@@ -10,22 +10,24 @@ export default function NewAppointmentPage() {
   const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
+  const {appointmentId } = useParams();
+  console.log('appointmentID', appointmentId);
   const navigate = useNavigate();
   const getOneWeek = () => {
-  const dates = [];
-  const today = new Date();
+    const dates = [];
+    const today = new Date();
 
-  for (let i = 0; i < 7; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() + i);
-    dates.push({
-      dayNum: date.getDate(),
-      weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
-      value: date.toLocaleDateString('en-US') // 'YYYY-MM-DD' in local timezone
-    });
-  }
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push({
+        dayNum: date.getDate(),
+        weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
+        value: date.toLocaleDateString('en-US')
+      });
+    }
 
-  return dates;
+    return dates;
   };
   const sevenDays = getOneWeek();
   useEffect(() => {
@@ -70,14 +72,30 @@ export default function NewAppointmentPage() {
   }
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log('slot', selectedSlot);
-    const appointmentDate = {
-      date: new Date(selectedDate),
-      startTime: selectedSlot,
-      teacher: '684aee87bdcb887e179a98d5'
+    console.log("Sending update:", {
+        date: new Date(selectedDate),
+        appointmentId,
+
+        startTime: selectedSlot,
+      });
+    if (appointmentId) {
+      const appointmentData = {
+        date: new Date(selectedDate),
+        appointmentId,
+        startTime: selectedSlot,
+      }
+      await appointmentService.update(appointmentData);
+
+    } else {
+      console.log('slot', selectedSlot);
+      const appointmentData = {
+        date: new Date(selectedDate),
+        startTime: selectedSlot,
+        teacher: '684aee87bdcb887e179a98d5'
+      }
+      console.log(appointmentData);
+      await appointmentService.create(appointmentData);
     }
-    console.log(appointmentDate);
-    await appointmentService.create(appointmentDate);
     navigate('/appointments');
 
 
@@ -94,7 +112,7 @@ export default function NewAppointmentPage() {
               <button
                 key={value}
                 className={`btn border rounded-circle me-2 d-flex align-items-center custom-btn
-                  ${selectedDate=== value? 'btn-secondary': 'btn-light'}`}
+                  ${selectedDate === value ? 'btn-secondary' : 'btn-light'}`}
                 style={{ width: '60px', height: '60px', flexShrink: 0 }}
 
                 onClick={() => handleDateClick(value)}
@@ -123,11 +141,11 @@ export default function NewAppointmentPage() {
                     {slot.time}
                   </button>
                 ))}
-                
+
               </div>
               <button type="submit" className="btn btn-light border mt-3"> Book </button>
 
-              
+
 
             </form>
 

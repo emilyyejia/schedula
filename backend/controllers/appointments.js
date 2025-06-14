@@ -4,6 +4,7 @@ module.exports = {
   index,
   create,
   remove,
+  update
 };
 
 async function index(req, res) {
@@ -57,7 +58,7 @@ async function create(req, res) {
     res.json(newAppointment);
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: "Failed to create appointment" });
+    res.status(400).json({ message: "Failed to book appointment" });
   }
 }
 
@@ -68,6 +69,24 @@ async function remove(req, res) {
     res.json(appointmentId);
   } catch (err) {
     console.log(err);
-    res.status(400).json({message: 'Failed to delete appointment'});
+    res.status(400).json({message: 'Failed to cancel appointment'});
+  }
+}
+
+async function update(req, res) {
+  try {
+    const appointmentId = req.body.appointmentId;
+    const { startTime, date } = req.body;
+    const updatedAppointment = await Appointment.findByIdAndUpdate(
+    appointmentId, 
+    {startTime, date},
+    {new: true}
+  );
+    res.json(updatedAppointment);
+
+    
+  } catch (err) {
+    res.status(400).json({message: 'Call to reschedule'});
+    
   }
 }

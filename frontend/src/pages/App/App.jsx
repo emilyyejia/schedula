@@ -21,6 +21,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/appointments" element={<MyAppointmentPage />} />
             <Route path="/appointments/new" element={<NewAppointmentPage />} />
+            <Route path="/appointments/reschedule/:appointmentId" element={<NewAppointmentPage />} />
             <Route path="*" element={null}/>
           </Routes>
         ) : (

@@ -9,4 +9,5 @@ router.use(ensureLoggedIn);
 router.get('/', appointmentCtrl.index);
 router.post('/', appointmentCtrl.create);
 router.delete('/', appointmentCtrl.remove);
+router.put('/', appointmentCtrl.update);
 module.exports = router;

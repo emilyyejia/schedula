@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import * as appointmentService from '../../services/appointmentService';
 
 
 export default function MyAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
-  const startDate =new Date();
+  const startDate = new Date();
+  const navigate = useNavigate();
   const teacherId = '684aee87bdcb887e179a98d5';
   useEffect(() => {
     async function fetchAppointments() {
@@ -14,11 +16,15 @@ export default function MyAppointmentPage() {
     }
     fetchAppointments();
   }, []);
-  
+
   async function handleDelete(appointmentId) {
     await appointmentService.remove(appointmentId);
-    setAppointments( appointments => 
+    setAppointments(appointments =>
       appointments.filter(appointment => appointment._id !== appointmentId));
+  }
+
+  async function handleReschedule(appointmentId) {
+    navigate(`/appointments/reschedule/${appointmentId}`);
   }
 
   return (
@@ -29,10 +35,15 @@ export default function MyAppointmentPage() {
           <ul className="list-group">
             {appointments.map((appointment) => <li key={appointment._id} className="list-group-item d-flex justify-content-between align-items-center">
               {appointment.date.slice(0, 10) + ' '}{appointment.startTime}
-              <button 
-              onClick={() => handleDelete(appointment._id)}
-              className="btn border" 
-              > Cancel</button>
+              <span>
+                <button
+                  onClick={() => handleReschedule(appointment._id)}
+                  className="btn border" > Reschedule</button>
+                <button
+                  onClick={() => handleDelete(appointment._id)}
+                  className="btn border"
+                > Cancel</button>
+              </span>
             </li>)}
 
           </ul>
