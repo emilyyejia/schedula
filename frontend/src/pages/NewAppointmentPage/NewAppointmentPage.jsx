@@ -5,7 +5,7 @@ import * as appointmentService from '../../services/appointmentService';
 
 export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA').split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-US').split('T')[0]);
   const teacherId = '684aee87bdcb887e179a98d5';
   const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
@@ -21,7 +21,7 @@ export default function NewAppointmentPage() {
     dates.push({
       dayNum: date.getDate(),
       weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
-      value: date.toLocaleDateString('en-CA') // 'YYYY-MM-DD' in local timezone
+      value: date.toLocaleDateString('en-US') // 'YYYY-MM-DD' in local timezone
     });
   }
 
