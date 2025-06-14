@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Routes, Route } from 'react-router'
 import './App.css'
 import HomePage from '../Homepage/HomePage';
-import PostListPage from '../PostListPage/PostListPage';
-import NewPostPage from '../NewPostPage/NewPostPage';
+import MyAppointmentPage from '../MyAppointmentPage/MyAppointmentPage'
+import NewAppointmentPage from '../NewAppointmentPage/NewAppointmentPage';
 import NavBar from '../../components/NavBar/NavBar';
 import SignInPage from '../SignInPage/SignInPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
@@ -19,8 +19,8 @@ export default function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/posts" element={<PostListPage />} />
-            <Route path="/posts/new" element={<NewPostPage />} />
+            <Route path="/appointments" element={<MyAppointmentPage />} />
+            <Route path="/appointments/new" element={<NewAppointmentPage />} />
             <Route path="*" element={null}/>
           </Routes>
         ) : (

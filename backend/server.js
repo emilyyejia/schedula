@@ -20,7 +20,7 @@ app.use(express.json());
 
 // API Routes
 app.use("/api/auth", require("./routes/auth"));
-app.use("/api/availabilities", require("./routes/availability"));
+app.use("/api/appointments", require("./routes/appointment"));
 // Use a "catch-all" route to deliver the frontend's production index.html
 app.get("/*splat", function (req, res) {
   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
