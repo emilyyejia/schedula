@@ -5,25 +5,27 @@ import * as appointmentService from '../../services/appointmentService';
 
 export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA').split('T')[0]);
   const teacherId = '684aee87bdcb887e179a98d5';
   const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
   const navigate = useNavigate();
   const getOneWeek = () => {
-    const dates = [];
-    for (let i = 0; i < 7; i++) {
-      const today = new Date();
-      const date = new Date(today);
-      date.setDate(date.getDate() + i);
-      dates.push({
-        dayNum: date.getDate(),
-        weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
-        value: date.toISOString().split('T')[0]
-      });
-    }
-    return dates;
+  const dates = [];
+  const today = new Date();
+
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+    dates.push({
+      dayNum: date.getDate(),
+      weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
+      value: date.toLocaleDateString('en-CA') // 'YYYY-MM-DD' in local timezone
+    });
+  }
+
+  return dates;
   };
   const sevenDays = getOneWeek();
   useEffect(() => {
@@ -80,19 +82,14 @@ export default function NewAppointmentPage() {
 
 
   }
-
-
-
   return (
-    <div className="bg-white">
-      <div className="calendar container mt-4 ">
+    <>
+      <div className="calendar container mt-4 text-center bg-white">
         <h2 className="mb-3">Schedula for clients</h2>
-        <div className='mb-4 d-flex justify-content-between gap-2'>
-        </div>
         <h4 className="mb-3">Select Time</h4>
-        <h5 className="mb-3">{monthYear}</h5>
         <div className="container mt-4">
-          <div className="d-flex overflow-auto mb-3">
+          <h5 className="mb-3">{monthYear}</h5>
+          <div className="d-flex overflow-auto mb-3 justify-content-center">
             {sevenDays.map(({ dayNum, weekday, value }) => (
               <button
                 key={value}
@@ -105,28 +102,31 @@ export default function NewAppointmentPage() {
                 <div style={{ fontSize: '12px' }}>{weekday}</div>
               </button>
             ))}
-
-
           </div>
-          <div className="d-flex flex-wrap gap-2 mt-2">
-            <form onSubmit={handleSubmit}>
-              {timeSlots.map((slot, i) => (
-                <button
-                  key={slot.time}
-                  type="button"
-                  className={`btn border ${slot.isBooked
-                    ? 'btn-secondary'
-                    : selectedSlot === slot.time
+          <div className="d-flex justify-content-center mt-3">
+            <form onSubmit={handleSubmit} className="text-center">
+              <div className="d-flex flex-wrap gap-2 justify-content-center">
+                {timeSlots.map((slot, i) => (
+                  <button
+                    key={slot.time}
+                    type="button"
+                    className={`btn border ${slot.isBooked
                       ? 'btn-secondary'
-                      : 'btn-light'
-                    }`}
-                  disabled={slot.isBooked}
-                  onClick={() => handleSlotClick(slot.time)}
-                >
-                  {slot.time}
-                </button>
-              ))}
-              <button type="submit" className="btn border btn-light"> Book </button>
+                      : selectedSlot === slot.time
+                        ? 'btn-secondary'
+                        : 'btn-light'
+                      }`}
+                    disabled={slot.isBooked}
+                    onClick={() => handleSlotClick(slot.time)}
+                  >
+                    {slot.time}
+                  </button>
+                ))}
+                
+              </div>
+              <button type="submit" className="btn btn-light border mt-3"> Book </button>
+
+              
 
             </form>
 
@@ -134,6 +134,6 @@ export default function NewAppointmentPage() {
         </div>
       </div>
 
-    </div>
+    </>
   );
 }

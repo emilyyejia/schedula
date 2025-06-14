@@ -13,10 +13,6 @@ export default function MyAppointmentPage () {
         fetchAppointments();
     }, [startDate]);
 
-    function formatDate(dateStr) {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-    }
     return (
     <>
       <h1>Upcoming Appointments</h1>
@@ -24,7 +20,7 @@ export default function MyAppointmentPage () {
         {appointments.length ? 
         <ul className="list-group">
             {appointments.map((appointment) => <li key={appointment._id} className="list-group-item">
-              {formatDate(appointment.date)}{appointment.startTime}</li>)}
+              {appointment.date.slice(0, 10) + ' '}{appointment.startTime}</li>)}
 
         </ul>
         :
