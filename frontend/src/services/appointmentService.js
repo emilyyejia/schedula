@@ -12,3 +12,6 @@ export async function create(appointmentData) {
 
 }
 
+export async function remove(appointmentId) {
+  return sendRequest(BASE_URL, 'DELETE', {appointmentId});
+}

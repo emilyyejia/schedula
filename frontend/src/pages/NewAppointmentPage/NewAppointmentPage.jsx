@@ -93,7 +93,8 @@ export default function NewAppointmentPage() {
             {sevenDays.map(({ dayNum, weekday, value }) => (
               <button
                 key={value}
-                className="btn btn-outline-secondary rounded-circle me-2 d-flex justify-content-center align-items-center custom-btn"
+                className={`btn border rounded-circle me-2 d-flex align-items-center custom-btn
+                  ${selectedDate=== value? 'btn-secondary': 'btn-light'}`}
                 style={{ width: '60px', height: '60px', flexShrink: 0 }}
 
                 onClick={() => handleDateClick(value)}

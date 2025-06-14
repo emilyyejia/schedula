@@ -3,6 +3,7 @@ const Appointment = require("../models/appointment");
 module.exports = {
   index,
   create,
+  remove,
 };
 
 async function index(req, res) {
@@ -20,8 +21,7 @@ async function index(req, res) {
             $gte: dateBegin,
             $lte: dateEnd
       }
-    });
-    // below would return all appointments for just the logged in user
+    })
     res.json(appointments);
   } catch (err) {
     console.log(err);
@@ -58,5 +58,16 @@ async function create(req, res) {
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Failed to create appointment" });
+  }
+}
+
+async function remove(req, res) {
+  try {
+    const appointmentId = req.body.appointmentId;
+    await Appointment.findByIdAndDelete(appointmentId);
+    res.json(appointmentId);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({message: 'Failed to delete appointment'});
   }
 }
