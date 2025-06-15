@@ -6,6 +6,7 @@ const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 
 router.use(ensureLoggedIn);
 router.get('/', appointmentCtrl.getTeachers);
+router.get('/all', appointmentCtrl.getAppointments);
 router.get('/:teacherId', appointmentCtrl.index);
 router.post('/:teacherId', appointmentCtrl.create);
 router.delete('/:teacherId', appointmentCtrl.remove);

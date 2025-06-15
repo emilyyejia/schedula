@@ -7,7 +7,6 @@ import { useState } from 'react';
 export default function NavBar({ user }) {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
-  const teacherId = '684aee87bdcb887e179a98d5';
   function handleMenu() {
     setExpanded(false);
   }
@@ -56,8 +55,8 @@ export default function NavBar({ user }) {
                   <li><span className="dropdown-item-text fw-bold py-2">Welcome, {user.name}</span></li>
                   {user.role === 'student' ? (
                     <>
-                      <li><NavLink className="dropdown-item " to={`/appointments/${teacherId}`}>Appointments</NavLink></li>
-                      <li><NavLink className="dropdown-item " to={`/appointments/${teacherId}/new`}>Book Your Spot</NavLink></li>
+                      <li><NavLink className="dropdown-item " to="/appointments/all">Appointments</NavLink></li>
+                      <li><NavLink className="dropdown-item " to="/">Book Your Slot</NavLink></li>
                       <li><Link to="/" className="dropdown-item " onClick={handleLogOut}>Log Out</Link></li>
                     </>
                   ) : (

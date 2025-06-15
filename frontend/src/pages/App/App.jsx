@@ -21,7 +21,7 @@ export default function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/appointments/:teacherId" element={<MyAppointmentPage />} />
+            <Route path="/appointments/all" element={<MyAppointmentPage />} />
             <Route path="/appointments/:teacherId/new" element={<NewAppointmentPage />} />
             <Route path="/appointments/reschedule/:appointmentId" element={<NewAppointmentPage />} />
             <Route path="/sessions" element={<MySessionsPage />} />

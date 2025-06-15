@@ -4,6 +4,7 @@ const Appointment = require("../models/appointment");
 const Session = require("../models/session");
 module.exports = {
   getTeachers,
+  getAppointments,
   index,
   create,
   remove,
@@ -19,12 +20,28 @@ async function getTeachers(req, res) {
     res.status(500).json({ message: "Failed to fetch teachers" });
   }
 }
+
+async function getAppointments(req, res) {
+  try {
+    const today = new Date(req.query.date);
+    const appointments = await Appointment.find({
+      student: req.user._id,
+      date: {$gte: today}
+    })
+    .populate("teacher");
+    res.json(appointments);
+  } catch (err) {
+        console.log(err);
+    res.status(500).json({ message: "Failed to fetch appointments" });
+  }
+
+}
 async function index(req, res) {
   try {
     const dateBegin = new Date(req.query.date);
     const dateEnd = new Date(req.query.date);
-    dateEnd.setDate(dateEnd.getDate() + 10);
-    const teacherId = req.params.teacherId || req.body.teacherId;
+    dateEnd.setDate(dateEnd.getDate() + 7);
+    const teacherId = req.params.teacherId
     const appointments = await Appointment.find({
       teacher: teacherId,
       student: req.user,

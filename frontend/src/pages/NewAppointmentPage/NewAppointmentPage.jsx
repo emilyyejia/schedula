@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router";
 import * as appointmentService from '../../services/appointmentsService';
-import * as sessionService from '../../services/sessionService';
 
 export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
@@ -10,9 +9,8 @@ export default function NewAppointmentPage() {
   const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
-  const { appointmentId } = useParams();
-  const teacherId = '684aee87bdcb887e179a98d5';
-
+  const { teacherId, appointmentId } = useParams();
+ 
   const navigate = useNavigate();
   const getOneWeek = () => {
     const dates = [];
@@ -152,9 +150,6 @@ export default function NewAppointmentPage() {
 
               </div>
               <button type="submit" className="btn btn-light border mt-3"> Book </button>
-
-
-
             </form>
 
           </div>
