@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router";
 import * as appointmentService from '../../services/appointmentsService';
-
+import * as sessionService from '../../services/sessionService';
 
 export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const teacherId = '684aee87bdcb887e179a98d5';
   const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
-  const {appointmentId } = useParams();
-  console.log('appointmentID', appointmentId);
+  const { appointmentId } = useParams();
+  const teacherId = '684aee87bdcb887e179a98d5';
+
   const navigate = useNavigate();
   const getOneWeek = () => {
     const dates = [];
@@ -30,16 +31,25 @@ export default function NewAppointmentPage() {
     return dates;
   };
   const sevenDays = getOneWeek();
+
   useEffect(() => {
     async function fetchAppointments() {
-      const appointments = await appointmentService.index(selectedDate, teacherId);
-      setAppointments(appointments);
-      setTimeSlots(renderTimeSlots(appointments));
+      const res = await appointmentService.index(selectedDate, teacherId);
+      setAppointments(res.appointments);
+      const allBlockedTimeSlots = res.sessions.flatMap(session => session.blockedTimeSlots || []);
+      setSessions(allBlockedTimeSlots);
+      console.log(res);
+      console.log(allBlockedTimeSlots);
+      setTimeSlots(renderTimeSlots(appointments, allBlockedTimeSlots, selectedDate));
      
     }
     fetchAppointments();
   
   }, [selectedDate]);
+
+   useEffect(() => {
+    setTimeSlots(renderTimeSlots(appointments, sessions, selectedDate));
+  }, [appointments, sessions, selectedDate]);
 
   const handleDateClick = (date) => {
     console.log('date', date);
@@ -49,42 +59,34 @@ export default function NewAppointmentPage() {
     console.log('time', time);
     setSelectedSlot(time);
   }
-  const renderTimeSlots = (appts) => {
+  const renderTimeSlots = (appts = [], blockedTimeSlots = [], selectedDate) => {
     const slots = [];
-    console.log('appointments');
-    console.log(appts);
-    const filtered = appts.filter((appt) => {
+    const filteredApp = appts.filter((appt) => {
       const apptDt = new Date(appt.date).toISOString().split('T')[0];
-      console.log('debug june-16');
-      console.log(apptDt);
       return apptDt === selectedDate
 
     });
-    console.log('filtered', filtered);
+    const filteredBlock = blockedTimeSlots.filter((slot) => {
+      const blockDate = new Date(slot.date).toISOString().split('T')[0];
+      return blockDate === selectedDate;
+    });
+
     for (let i = 0; i < 8; i++) {
       let hour = 10 + i;
       let time = `${hour}:00:00`;
-      if (filtered.some(appt => appt.startTime === time)) {
-        slots.push({
-          time: time,
-          isBooked: true
-        });
-      }
-      else slots.push({
-        time: time,
-        isBooked: false
+      const isBooked = filteredApp.some(appt => appt.startTime === time);
+      const isBlocked = filteredBlock.some(slot => slot.startTime === time);
+      slots.push({
+        time,
+        isBooked,
+        isBlocked,
       });
     }
     return slots;
   }
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log("Sending update:", {
-        date: new Date(selectedDate),
-        appointmentId,
-
-        startTime: selectedSlot,
-      });
     if (appointmentId) {
       const appointmentData = {
         date: new Date(selectedDate),
@@ -94,18 +96,17 @@ export default function NewAppointmentPage() {
       await appointmentService.update(appointmentData);
 
     } else {
-      console.log('slot', selectedSlot);
       const appointmentData = {
         date: new Date(selectedDate),
         startTime: selectedSlot,
-        teacher: '684aee87bdcb887e179a98d5'
+        teacher: teacherId
       }
-      console.log(appointmentData);
-      await appointmentService.create(appointmentData);
+      const newAppointment = await appointmentService.create(appointmentData);
+      console.log(appointments);
+      console.log(newAppointment);
+      setAppointments( appointments => [...appointments, newAppointment]);
     }
-    navigate('/appointments');
-
-
+    
   }
   return (
     <>
@@ -134,15 +135,15 @@ export default function NewAppointmentPage() {
               <div className="d-flex flex-wrap gap-2 justify-content-center">
                 {timeSlots.map((slot, i) => (
                   <button
-                    key={slot.time}
+                    key={i}
                     type="button"
-                    className={`btn border ${slot.isBooked
-                      ? 'btn-secondary'
-                      : selectedSlot === slot.time
-                        ? 'btn-secondary'
-                        : 'btn-light'
-                      }`}
-                    disabled={slot.isBooked}
+                    className={`btn border 
+                   ${slot.isBooked ? 'btn-dark'
+                        : slot.isBlocked ? 'btn-primary'
+                          : selectedSlot === slot.time ? 'btn-primary'
+                            : 'btn-light'}`}
+
+                    disabled={slot.isBooked || slot.isBlocked}
                     onClick={() => handleSlotClick(slot.time)}
                   >
                     {slot.time}

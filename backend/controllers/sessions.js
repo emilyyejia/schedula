@@ -30,12 +30,6 @@ async function create(req, res) {
         blockedTimeSlots: [],
       });
     }
-    // const isBooked = await Appointment.exists({
-    //   teacher: req.user._id,
-    //   date: new Date(date),
-    //   startTime,
-    // });
-    // if (!isBooked) {
       session.blockedTimeSlots.push({ date, startTime });
       await session.save();
       res.json(session);

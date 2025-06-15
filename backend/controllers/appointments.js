@@ -1,30 +1,42 @@
 const mongoose = require("mongoose");
+const User = require("../models/user");
 const Appointment = require("../models/appointment");
+const Session = require("../models/session");
 module.exports = {
+  getTeachers,
   index,
   create,
   remove,
-  update
+  update,
 };
 
+async function getTeachers(req, res) {
+  try {
+    const teachers = await User.find({ role: 'teacher'});
+    res.json(teachers);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to fetch teachers" });
+  }
+}
 async function index(req, res) {
   try {
-    console.log(req.query.date);
     const dateBegin = new Date(req.query.date);
-    const dateEnd = new Date(req.query.date); 
-    dateEnd.setDate(dateEnd.getDate()+10);
-    console.log(dateBegin);
-    console.log(dateEnd);
-    const teacherId = req.query.teacherId;
+    const dateEnd = new Date(req.query.date);
+    dateEnd.setDate(dateEnd.getDate() + 10);
+    const teacherId = req.params.teacherId || req.body.teacherId;
     const appointments = await Appointment.find({
       teacher: teacherId,
       student: req.user,
       date: {
-            $gte: dateBegin,
-            $lte: dateEnd
-      }
-    })
-    res.json(appointments);
+        $gte: dateBegin,
+        $lte: dateEnd,
+      },
+    });
+    const sessions = await Session.find({
+      teacher: teacherId,
+    });
+    res.json({ appointments, sessions });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to fetch appointments" });
@@ -33,25 +45,23 @@ async function index(req, res) {
 
 async function create(req, res) {
   try {
-    
     const user = req.user;
-    console.log(user);
     let appointment = {};
     const { date, startTime, teacher } = req.body;
     if (user.role === "teacher") {
       appointment = {
-        date, 
-        startTime, 
-        status: "blocked", 
-        teacher: req.user._id
+        date,
+        startTime,
+        status: "blocked",
+        teacher: req.user._id,
       };
     } else {
-       appointment = {
-        date, 
-        startTime, 
-        status: "booked", 
-        student: req.user._id, 
-        teacher: teacher
+      appointment = {
+        date,
+        startTime,
+        status: "booked",
+        student: req.user._id,
+        teacher: teacher,
       };
     }
     console.log(appointment);
@@ -70,7 +80,7 @@ async function remove(req, res) {
     res.json(appointmentId);
   } catch (err) {
     console.log(err);
-    res.status(400).json({message: 'Failed to cancel appointment'});
+    res.status(400).json({ message: "Failed to cancel appointment" });
   }
 }
 
@@ -79,15 +89,12 @@ async function update(req, res) {
     const appointmentId = req.body.appointmentId;
     const { startTime, date } = req.body;
     const updatedAppointment = await Appointment.findByIdAndUpdate(
-    appointmentId, 
-    {startTime, date},
-    {new: true}
-  );
+      appointmentId,
+      { startTime, date },
+      { new: true }
+    );
     res.json(updatedAppointment);
-
-    
   } catch (err) {
-    res.status(400).json({message: 'Call to reschedule'});
-    
+    res.status(400).json({ message: "Call to reschedule" });
   }
 }

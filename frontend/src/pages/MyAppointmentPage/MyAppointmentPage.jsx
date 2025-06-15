@@ -10,9 +10,9 @@ export default function MyAppointmentPage() {
   const teacherId = '684aee87bdcb887e179a98d5';
   useEffect(() => {
     async function fetchAppointments() {
-      const appointments = await appointmentService.index(startDate, teacherId);
+      const res = await appointmentService.index(startDate, teacherId);
       console.log(appointments);
-      setAppointments(appointments);
+      setAppointments(res.appointments);
     }
     fetchAppointments();
   }, []);
@@ -38,10 +38,10 @@ export default function MyAppointmentPage() {
               <span>
                 <button
                   onClick={() => handleReschedule(appointment._id)}
-                  className="btn border" > Reschedule</button>
+                  className="btn border m-2" > Reschedule</button>
                 <button
                   onClick={() => handleDelete(appointment._id)}
-                  className="btn border"
+                  className="btn border m-2"
                 > Cancel</button>
               </span>
             </li>)}

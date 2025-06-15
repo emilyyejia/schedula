@@ -5,8 +5,9 @@ router.use(require('../middleware/checkToken'));
 const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 
 router.use(ensureLoggedIn);
-router.get('/', appointmentCtrl.index);
-router.post('/', appointmentCtrl.create);
-router.delete('/', appointmentCtrl.remove);
-router.put('/', appointmentCtrl.update);
+router.get('/', appointmentCtrl.getTeachers);
+router.get('/:teacherId', appointmentCtrl.index);
+router.post('/:teacherId', appointmentCtrl.create);
+router.delete('/:teacherId', appointmentCtrl.remove);
+router.put('/:teacherId', appointmentCtrl.update);
 module.exports = router;

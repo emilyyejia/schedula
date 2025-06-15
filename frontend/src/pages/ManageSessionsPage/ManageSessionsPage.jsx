@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
-import './ManageSessionsPage.css';
+// import './ManageSessionsPage.css';
 import * as sessionService from '../../services/sessionService';
-
 
 export default function ManageSessionsPage() {
   const [appointments, setAppointments] = useState([]);
@@ -88,7 +87,7 @@ export default function ManageSessionsPage() {
 
   return (
     <>
-      <div className="calendar container mt-4 text-center bg-white">
+      <div className="calendar container mt-4 text-center">
         <h2 className="mb-3">Schedula for clients</h2>
         <h4 className="mb-3">Block Time</h4>
         <div className="container mt-4">
@@ -117,8 +116,8 @@ export default function ManageSessionsPage() {
                     type="button"
                     className={`btn border 
                     ${slot.isBooked ? 'btn-dark'
-                        : slot.isBlocked ? 'btn-warning'
-                          : selectedSlot === slot.time ? 'btn-info'
+                        : slot.isBlocked ? 'btn-primary'
+                          : selectedSlot === slot.time ? 'btn-primary'
                             : 'btn-light'}`}
                     disabled={slot.isBooked || slot.isBlocked}
                     onClick={() => handleSlotClick(slot.time)}
@@ -129,9 +128,6 @@ export default function ManageSessionsPage() {
 
               </div>
               <button type="submit" className="btn btn-light border mt-3"> Block </button>
-
-
-
             </form>
 
           </div>
