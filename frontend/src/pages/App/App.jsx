@@ -9,12 +9,13 @@ import SignInPage from '../SignInPage/SignInPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
 import { getUser } from '../../services/authService';
 import LogInPage from '../LogInPage/LogInPage';
+import MySessionsPage from '../MySessionsPage/MySessionsPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
   return (
     <main className='App'>
-      <NavBar user={user} setUser={setUser}/>
+      <NavBar user={user} setUser={setUser} />
       <section id='main-section'>
         {user ? (
           <Routes>
@@ -22,15 +23,17 @@ export default function App() {
             <Route path="/appointments" element={<MyAppointmentPage />} />
             <Route path="/appointments/new" element={<NewAppointmentPage />} />
             <Route path="/appointments/reschedule/:appointmentId" element={<NewAppointmentPage />} />
-            <Route path="*" element={null}/>
+            <Route path="/sessions" element={<MySessionsPage />} />
+            {/* <Route path="/sessions/new" element={<BlockSessionsPage />} /> */}
+            <Route path="*" element={null} />
           </Routes>
         ) : (
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/signin" element={<SignInPage setUser={setUser}/>}/>
-            <Route path="/signup" element={<SignUpPage setUser={setUser}/>}/>
-            <Route path="/login" element={<LogInPage setUser={setUser}/>}/>
-            <Route path="*" element={null}/>
+            <Route path="/signin" element={<SignInPage setUser={setUser} />} />
+            <Route path="/signup" element={<SignUpPage setUser={setUser} />} />
+            <Route path="/login" element={<LogInPage setUser={setUser} />} />
+            <Route path="*" element={null} />
           </Routes>
         )}
       </section>

@@ -22,7 +22,7 @@ export default function SignUpPage({ setUser }) {
         try {
             const user = await signUp(formData);
             setUser(user);
-            navigate('/posts');
+            navigate('/appointments/new');
         } catch (err) {
             setErrorMsg('Sign Up Failed -Try Again');
             console.log(err);

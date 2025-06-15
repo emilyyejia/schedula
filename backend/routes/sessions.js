@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const appointmentCtrl = require('../controllers/appointments');
+const sessionCtrl = require('../controllers/sessions');
 router.use(require('../middleware/checkToken'));
 const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 
 router.use(ensureLoggedIn);
-router.get('/', appointmentCtrl.index);
-router.post('/', appointmentCtrl.create);
-router.delete('/', appointmentCtrl.remove);
-router.put('/', appointmentCtrl.update);
+
+router.get('/', sessionCtrl.index);
+
 module.exports = router;

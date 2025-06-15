@@ -18,6 +18,7 @@ async function index(req, res) {
     const teacherId = req.query.teacherId;
     const appointments = await Appointment.find({
       teacher: teacherId,
+      student: req.user,
       date: {
             $gte: dateBegin,
             $lte: dateEnd

@@ -21,7 +21,7 @@ export default function NavBar({ user }) {
   return (
 
     <Navbar expand={false} expanded={expanded} onToggle={setExpanded} className="bg-body-tertiary">
-    <Container>
+      <Container>
         <Navbar.Brand as={NavLink} to="/" className="my-navbar-brand">Schedula</Navbar.Brand>
 
         <div className="d-flex align-items-center ms-auto">
@@ -47,22 +47,31 @@ export default function NavBar({ user }) {
               aria-label="Toggle navigation"
               style={{ boxShadow: 'none' }}
             >
-            <span className="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
             </button>
             <ul className="dropdown-menu mt-3 dropdown-menu-end" aria-labelledby="dropdownMenu2">
               {user ? (
                 <>
                   <li><span className="dropdown-item-text fw-bold py-2">Welcome, {user.name}</span></li>
-                  <li><NavLink className="dropdown-item " to="/appointments">Appointments</NavLink></li>
-                  <li><NavLink className="dropdown-item " to="/appointments/new">Book Your Spot</NavLink></li>
-                  <li><Link to="/" className="dropdown-item "  onClick={handleLogOut}>Log Out</Link></li>
+                  {user.role === 'student' ? (
+                    <>
+                      <li><NavLink className="dropdown-item " to="/appointments">Appointments</NavLink></li>
+                      <li><NavLink className="dropdown-item " to="/appointments/new">Book Your Spot</NavLink></li>
+                      <li><Link to="/" className="dropdown-item " onClick={handleLogOut}>Log Out</Link></li>
+                    </>
+                  ) : (
+                    <>
+                      <li><NavLink className="dropdown-item " to="/sessions">Sessions</NavLink></li>
+                      <li><NavLink className="dropdown-item " to="/sessions/new">Set Your Time</NavLink></li>
+                      <li><Link to="/" className="dropdown-item " onClick={handleLogOut}>Log Out</Link></li>
+                    </>
+                  )}
                 </>
               ) : (
                 <>
                   <li><NavLink className="dropdown-item fw-bold py-2" to="/signin">Sign Up/Log In</NavLink></li>
-                  <li><NavLink className="dropdown-item " to="/appointments/new">Book Your Spot</NavLink></li>
-                   <li><NavLink className="dropdown-item " to="/">About Us</NavLink></li>
-                   
+                  <li><NavLink className="dropdown-item " to="/">About Us</NavLink></li>
+
                 </>
               )}
             </ul>

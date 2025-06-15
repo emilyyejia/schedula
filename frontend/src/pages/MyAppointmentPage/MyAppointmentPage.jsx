@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import * as appointmentService from '../../services/appointmentService';
+import * as appointmentService from '../../services/appointmentsService';
 
 
 export default function MyAppointmentPage() {
