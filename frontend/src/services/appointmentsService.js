@@ -8,7 +8,8 @@ const params = new URLSearchParams({ date: startDate});
 }
 
 export async function create(appointmentData) {
-  return sendRequest(BASE_URL, 'POST', appointmentData );
+  const { teacherId } = appointmentData;
+  return sendRequest(`${BASE_URL}/${teacherId}`, 'POST', appointmentData );
 
 }
 

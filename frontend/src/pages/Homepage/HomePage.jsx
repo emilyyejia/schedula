@@ -20,8 +20,8 @@ export default function HomePage() {
             <h1 className="mb-5">Marketing</h1>
             <div className="d-flex flex-wrap justify-content-center mt-4">
                 {teachers.map((teacher, index) => (
-                    <div key={teacher._id || index} className="card" style={{ width: '18rem' }}>
-                        <img src="https://plus.unsplash.com/premium_photo-1661918391309-7ddd44addee6?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpbmVzZSUyMGdpcmwlMjBwcm9maWxlJTIwcGhvdG98ZW58MHx8MHx8fDA%3D" className="card-img-top" alt="teacher photo"  style={{ height: '250px', objectFit: 'cover' }} />
+                    <div key={index} className="card m-3" style={{ width: '18rem' }}>
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2ZpbGUlMjBwaG90b3xlbnwwfHwwfHx8MA%3D%3D" className="card-img-top" alt="teacher photo"  style={{ height: '300px', objectFit: 'cover' }} />
                         <div className="card-body">
                             <h5 className="card-title"> {teacher.name}</h5>
                             <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>

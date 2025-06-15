@@ -102,9 +102,8 @@ export default function NewAppointmentPage() {
         teacher: teacherId
       }
       const newAppointment = await appointmentService.create(appointmentData);
-      console.log(appointments);
-      console.log(newAppointment);
       setAppointments( appointments => [...appointments, newAppointment]);
+      navigate('/appointments/all');
     }
     
   }
