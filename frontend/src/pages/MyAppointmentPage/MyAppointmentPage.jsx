@@ -6,7 +6,6 @@ import * as appointmentService from '../../services/appointmentsService';
 export default function MyAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
   const today= new Date().toISOString().split('T')[0];
-  console.log(today);
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -24,8 +23,8 @@ export default function MyAppointmentPage() {
       appointments.filter(appointment => appointment._id !== appointmentId));
   }
 
-  async function handleReschedule(appointmentId) {
-    navigate(`/appointments/reschedule/${appointmentId}`);
+  async function handleReschedule(appointmentId, teacherId) {
+    navigate(`/appointments/reschedule/${appointmentId}/${teacherId}`);
   }
 
   return (
@@ -38,7 +37,7 @@ export default function MyAppointmentPage() {
               {appointment.date.slice(0, 10) + ' '}{appointment.startTime + ' '}{appointment.teacher.name}
               <span>
                 <button
-                  onClick={() => handleReschedule(appointment._id)}
+                  onClick={() => handleReschedule(appointment._id, appointment.teacher._id)}
                   className="btn border m-2" > Reschedule</button>
                 <button
                   onClick={() => handleDelete(appointment._id)}

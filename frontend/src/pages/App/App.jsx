@@ -23,7 +23,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/appointments/all" element={<MyAppointmentPage />} />
             <Route path="/appointments/:teacherId/new" element={<NewAppointmentPage />} />
-            <Route path="/appointments/reschedule/:appointmentId" element={<NewAppointmentPage />} />
+            <Route path="/appointments/reschedule/:appointmentId/:teacherId" element={<NewAppointmentPage />} />
             <Route path="/sessions" element={<MySessionsPage />} />
             <Route path="/sessions/new" element={<ManageSessionsPage />} />
             <Route path="*" element={null} />

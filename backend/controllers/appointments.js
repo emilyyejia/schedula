@@ -41,7 +41,7 @@ async function index(req, res) {
     const dateBegin = new Date(req.query.date);
     const dateEnd = new Date(req.query.date);
     dateEnd.setDate(dateEnd.getDate() + 7);
-    const teacherId = req.params.teacherId
+    const teacherId = req.params.teacherId;
     const appointments = await Appointment.find({
       teacher: teacherId,
       student: req.user,

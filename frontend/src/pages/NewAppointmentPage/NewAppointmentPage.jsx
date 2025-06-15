@@ -10,6 +10,7 @@ export default function NewAppointmentPage() {
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
   const { teacherId, appointmentId } = useParams();
+  console.log('appId', appointmentId);
  
   const navigate = useNavigate();
   const getOneWeek = () => {
@@ -92,6 +93,7 @@ export default function NewAppointmentPage() {
         startTime: selectedSlot,
       }
       await appointmentService.update(appointmentData);
+      navigate('/appointments/all');
 
     } else {
       const appointmentData = {

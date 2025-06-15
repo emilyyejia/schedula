@@ -9,6 +9,6 @@ router.get('/', appointmentCtrl.getTeachers);
 router.get('/all', appointmentCtrl.getAppointments);
 router.get('/:teacherId', appointmentCtrl.index);
 router.post('/:teacherId', appointmentCtrl.create);
-router.delete('/:teacherId', appointmentCtrl.remove);
-router.put('/:teacherId', appointmentCtrl.update);
+router.delete('/:appointmentId', appointmentCtrl.remove);
+router.put('/:appointmentId', appointmentCtrl.update);
 module.exports = router;
