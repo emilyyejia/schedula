@@ -8,17 +8,11 @@ const sessionSchema = new Schema(
       required: true,
       ref: "User",
     },
-    blockedDates: [
-      {
-        type: Date,
-        required: true,
-      }
-    ],
+ 
     blockedTimeSlots: [
       {
         date: { type: Date, required: true },
         startTime: { type: String },  
-        endTime: { type: String },   
       }
     ],
   },

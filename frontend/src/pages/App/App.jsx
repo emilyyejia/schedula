@@ -10,6 +10,7 @@ import SignUpPage from '../SignUpPage/SignUpPage';
 import { getUser } from '../../services/authService';
 import LogInPage from '../LogInPage/LogInPage';
 import MySessionsPage from '../MySessionsPage/MySessionsPage';
+import ManageSessionsPage from '../ManageSessionsPage/ManageSessionsPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -24,7 +25,7 @@ export default function App() {
             <Route path="/appointments/new" element={<NewAppointmentPage />} />
             <Route path="/appointments/reschedule/:appointmentId" element={<NewAppointmentPage />} />
             <Route path="/sessions" element={<MySessionsPage />} />
-            {/* <Route path="/sessions/new" element={<BlockSessionsPage />} /> */}
+            <Route path="/sessions/new" element={<ManageSessionsPage />} />
             <Route path="*" element={null} />
           </Routes>
         ) : (

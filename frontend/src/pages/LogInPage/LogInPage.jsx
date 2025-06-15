@@ -24,7 +24,10 @@ export default function LogInPage({ setUser }) {
     try {
       const user = await authService.logIn(formData);
       setUser(user);
-      navigate('/appointments/new');
+      if (user.role === "student"){
+        navigate('/appointments/new');
+      } else navigate('/sessions');
+      
     } catch (err) {
       setErrorMsg('Log In Failed - Try Again');
     }

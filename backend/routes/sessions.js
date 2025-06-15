@@ -7,5 +7,6 @@ const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 router.use(ensureLoggedIn);
 
 router.get('/', sessionCtrl.index);
+router.post('/', sessionCtrl.create);
 
 module.exports = router;

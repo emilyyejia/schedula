@@ -7,9 +7,9 @@ export default function MySessionsPage() {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchSessions() {
-      const sessions = await sessionsService.index();
-      
-      setSessions(sessions);
+      const res = await sessionsService.index();
+      console.log(res)
+      setSessions(res.appointments);
     }
     fetchSessions();
   }, []);
