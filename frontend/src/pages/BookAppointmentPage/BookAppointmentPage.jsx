@@ -17,15 +17,15 @@ export default function bookAppointmentPage() {
 
     return (
         <div >
-            <h1 className="mb-5">Marketing</h1>
+            <h1 className="mb-5">Schedula with Your Teachers </h1>
             <div className="d-flex flex-wrap justify-content-center mt-4">
                 {teachers.map((teacher, index) => (
                     <div key={index} className="card m-3" style={{ width: '18rem' }}>
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2ZpbGUlMjBwaG90b3xlbnwwfHwwfHx8MA%3D%3D" className="card-img-top" alt="teacher photo"  style={{ height: '300px', objectFit: 'cover' }} />
+                        <img src="..." className="card-img-top" alt="teacher photo"  />
                         <div className="card-body">
                             <h5 className="card-title"> {teacher.name}</h5>
                             <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                            <Link class="btn btn-primary" to={`/appointments/${teacher._id}/new`}>Book Your Slot</Link>
+                            <Link class="btn btn-dark" to={`/appointments/${teacher._id}/new`}>Book Your Slot</Link>
                         </div>
                     </div>
                 ))}
