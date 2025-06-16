@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import * as appointmentService from "../../services/appointmentsService";
+import './BookAppointmentPage.css';
 
 
 export default function bookAppointmentPage() {
@@ -16,7 +17,7 @@ export default function bookAppointmentPage() {
     }, []);
 
     return (
-        <div >
+        <div className='main-page' >
             <h1 className="mb-5">Schedula with Your Teachers </h1>
             <div className="d-flex flex-wrap justify-content-center mt-4">
                 {teachers.map((teacher, index) => (

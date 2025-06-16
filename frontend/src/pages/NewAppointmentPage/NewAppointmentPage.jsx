@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router";
 import * as appointmentService from '../../services/appointmentsService';
+import './NewAppointmentPage.css';
 
 export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
@@ -108,7 +109,7 @@ export default function NewAppointmentPage() {
     
   }
   return (
-    <>
+    < div >
       <div className="calendar container mt-4 text-center bg-white">
         <h2 className="mb-3">Schedula for clients</h2>
         <h4 className="mb-3">Select Time</h4>
@@ -157,6 +158,6 @@ export default function NewAppointmentPage() {
         </div>
       </div>
 
-    </>
+    </div>
   );
 }

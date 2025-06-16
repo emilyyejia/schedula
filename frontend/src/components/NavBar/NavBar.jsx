@@ -70,7 +70,9 @@ export default function NavBar({ user }) {
               ) : (
                 <>
                   <li><NavLink className="dropdown-item fw-bold py-2" to="/">Home</NavLink></li>
-                  <li><NavLink className="dropdown-item" to="/signin">Sign Up/Log In</NavLink></li>                  
+                  <li><NavLink className="dropdown-item" to="/signin">Sign Up/Log In</NavLink></li>
+                  <li><NavLink className="dropdown-item" to="/">Find Your Teacher</NavLink></li>
+                  <li><NavLink className="dropdown-item" to="/">Contact Us</NavLink></li>                   
                 </>
               )}
             </ul>

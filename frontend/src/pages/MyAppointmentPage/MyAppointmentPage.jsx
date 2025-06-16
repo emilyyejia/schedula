@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import * as appointmentService from '../../services/appointmentsService';
+import './MyAppointmentPage.css';
 
 
 export default function MyAppointmentPage() {
@@ -28,8 +29,8 @@ export default function MyAppointmentPage() {
   }
 
   return (
-    <>
-      <h1 className="text-center m-3"> Upcoming Appointments</h1>
+    <div className="main-page">
+      <h1 className="text-center py-3"> Upcoming Appointments</h1>
       <div className="container mt-4">
         {appointments.length ?
           <ul className="list-group">
@@ -52,7 +53,7 @@ export default function MyAppointmentPage() {
         }
 
       </div>
-    </>
+    </div>
 
   );
 }
