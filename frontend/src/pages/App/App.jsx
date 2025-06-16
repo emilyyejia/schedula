@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Routes, Route } from 'react-router'
 import './App.css'
 import HomePage from '../Homepage/HomePage';
+import BookAppointmentPage from '../BookAppointmentPage/BookAppointmentPage';
 import MyAppointmentPage from '../MyAppointmentPage/MyAppointmentPage'
 import NewAppointmentPage from '../NewAppointmentPage/NewAppointmentPage';
 import NavBar from '../../components/NavBar/NavBar';
@@ -21,6 +22,7 @@ export default function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/appointments" element={<BookAppointmentPage />} />
             <Route path="/appointments/all" element={<MyAppointmentPage />} />
             <Route path="/appointments/:teacherId/new" element={<NewAppointmentPage />} />
             <Route path="/appointments/reschedule/:appointmentId/:teacherId" element={<NewAppointmentPage />} />

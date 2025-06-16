@@ -41,7 +41,11 @@ export default function SignInPage({ setUser }) {
     try {   
       const body = await googleLogin(token);
       setUser(body.user);
-      navigate('/appointments/new');
+      console.log(body.user);
+      if( body.user.role === "student") {
+        navigate('/appointments');
+      } else navigate('/sessions/new');
+      
     } catch (err) {
       setErrorMsg('Google Sign Up Failed -Try Again');
 

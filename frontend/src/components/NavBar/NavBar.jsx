@@ -56,7 +56,7 @@ export default function NavBar({ user }) {
                   {user.role === 'student' ? (
                     <>
                       <li><NavLink className="dropdown-item " to="/appointments/all">Appointments</NavLink></li>
-                      <li><NavLink className="dropdown-item " to="/">Book Your Slot</NavLink></li>
+                      <li><NavLink className="dropdown-item " to="/appointments">Book Your Slot</NavLink></li>
                       <li><Link to="/" className="dropdown-item " onClick={handleLogOut}>Log Out</Link></li>
                     </>
                   ) : (
