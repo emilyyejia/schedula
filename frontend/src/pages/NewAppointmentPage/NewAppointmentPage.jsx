@@ -11,26 +11,53 @@ export default function NewAppointmentPage() {
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
   const { teacherId, appointmentId } = useParams();
+    const [ holidays, setHolidays] = useState([]);
+    useEffect(() => {
+      async function loadDefaultData() {
+        const res = await fetch("https://canada-holidays.ca//api/v1/provinces/ON");
+        console.log(res);
+        if (res.ok) {
+          const data = await res.json();
+          console.log(data)
+          setHolidays(data.province.holidays);
+        }  
+        
+      }
+      loadDefaultData();
+    }, []);
   console.log('appId', appointmentId);
- 
+  console.log(holidays);
   const navigate = useNavigate();
+ 
+   const isDateHoliday = (date) => {
+    const dateStr = date.toISOString().split('T')[0];
+    const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
+    if (weekday === 'Sat' || weekday ==='Sun') {
+      return true;
+    } else if (holidays.some(holiday => holiday.date === dateStr )) {
+      return true;
+    } else return false;   
+  }
+  
+
   const getOneWeek = () => {
     const dates = [];
     const today = new Date();
-
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       dates.push({
         value: date.toISOString().split('T')[0],
         dayNum: date.getDate(),
-        weekday: date.toLocaleDateString('en-US', { weekday: 'short' })
-        
+        weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
+        isHoliday: isDateHoliday(date)    
       });
     }
     return dates;
   };
+
   const sevenDays = getOneWeek();
+  console.table(getOneWeek());
 
   useEffect(() => {
     async function fetchAppointments() {
@@ -116,14 +143,17 @@ export default function NewAppointmentPage() {
         <div className="container mt-4">
           <h5 className="mb-3">{monthYear}</h5>
           <div className="d-flex overflow-auto mb-3 justify-content-center">
-            {sevenDays.map(({ dayNum, weekday, value }) => (
+            {sevenDays.map(({ dayNum, weekday, value, isHoliday }) => (
               <button
                 key={value}
                 className={`btn border rounded-circle me-2 d-flex align-items-center custom-btn
-                  ${selectedDate === value ? 'btn-secondary' : 'btn-light'}`}
+                  ${selectedDate === value ? 'btn-secondary' : 'btn-light'}
+                  ${isHoliday? 'disabled-btn': ''}`}
+                 
                 style={{ width: '60px', height: '60px', flexShrink: 0 }}
 
-                onClick={() => handleDateClick(value)}
+                onClick={() => !isHoliday&&handleDateClick(value)}
+                disabled={isHoliday}
               >
                 <div>{dayNum}</div>
                 <div style={{ fontSize: '12px' }}>{weekday}</div>

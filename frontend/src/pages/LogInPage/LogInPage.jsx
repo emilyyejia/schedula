@@ -7,9 +7,7 @@ import * as authService from '../../services/authService';
 export default function LogInPage({ setUser }) {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  console.log(queryParams);
   const email = queryParams.get('email') ? decodeURIComponent(queryParams.get('email')): '';
-  console.log(email);
   
   const [formData, setFormData] = useState({
     email: email,
@@ -29,6 +27,7 @@ export default function LogInPage({ setUser }) {
       } else navigate('/sessions/new');
       
     } catch (err) {
+      console.log(err);
       setErrorMsg('Log In Failed - Try Again');
     }
   }

@@ -12,6 +12,7 @@ import { getUser } from '../../services/authService';
 import LogInPage from '../LogInPage/LogInPage';
 import MySessionsPage from '../MySessionsPage/MySessionsPage';
 import ManageSessionsPage from '../ManageSessionsPage/ManageSessionsPage';
+import { useEffect } from 'react';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -24,7 +25,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/appointments" element={<BookAppointmentPage />} />
             <Route path="/appointments/all" element={<MyAppointmentPage />} />
-            <Route path="/appointments/:teacherId/new" element={<NewAppointmentPage />} />
+            <Route path="/appointments/:teacherId/new" element={<NewAppointmentPage />}  />
             <Route path="/appointments/reschedule/:appointmentId/:teacherId" element={<NewAppointmentPage />} />
             <Route path="/sessions" element={<MySessionsPage />} />
             <Route path="/sessions/new" element={<ManageSessionsPage />} />

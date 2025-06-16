@@ -36,7 +36,7 @@ async function signUp(req, res) {
   try {
     const user = await User.create(req.body);
     const token = createJWT(user);
-    res.json(token);
+    res.json({user,token});
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Duplicate Email" });
@@ -50,7 +50,7 @@ async function logIn(req, res) {
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) throw new Error();
     const token = createJWT(user);
-    res.json(token);
+    res.json({user, token});
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Bad Credentials" });

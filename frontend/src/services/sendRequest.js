@@ -33,5 +33,7 @@ export default async function sendRequest(
   // Obtain error sent from server
   const err = await res.json();
   // Throw error to be handled in React
-  throw new Error(err.message);
+  const error = new Error(err.message);
+  error.status = err. status;
+  throw error;
 }
