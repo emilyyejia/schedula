@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const Appointment = require("../models/appointment");
 const Session = require("../models/session");
+const TeacherProfile = require('../models/teacherProfile');
 module.exports = {
   getTeachers,
   getAppointments,
@@ -13,7 +14,8 @@ module.exports = {
 
 async function getTeachers(req, res) {
   try {
-    const teachers = await User.find({ role: 'teacher'});
+    const teachers = await TeacherProfile.find({ })
+    .populate("teacher");
     res.json(teachers);
   } catch (err) {
     console.log(err);

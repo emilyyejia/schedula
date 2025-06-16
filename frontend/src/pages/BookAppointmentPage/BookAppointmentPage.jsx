@@ -22,11 +22,11 @@ export default function bookAppointmentPage() {
             <div className="d-flex flex-wrap justify-content-center mt-4">
                 {teachers.map((teacher, index) => (
                     <div key={index} className="card m-3" style={{ width: '18rem' }}>
-                        <img src="..." className="card-img-top" alt="teacher photo"  />
+                        <img src={teacher.photo} className="card-img-top" alt="teacher photo"  />
                         <div className="card-body">
-                            <h5 className="card-title"> {teacher.name}</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                            <Link class="btn btn-dark" to={`/appointments/${teacher._id}/new`}>Book Your Slot</Link>
+                            <h5 className="card-title"> {teacher.teacher.name}</h5>
+                            <p className="card-text">{teacher.bio}</p>
+                            <Link class="btn btn-dark" to={`/appointments/${teacher.teacher._id}/new`}>Book Your Slot</Link>
                         </div>
                     </div>
                 ))}
