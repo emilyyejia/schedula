@@ -8,7 +8,7 @@ router.use(ensureLoggedIn);
 router.get('/', appointmentCtrl.getTeachers);
 router.get('/all', appointmentCtrl.getAppointments);
 router.get('/:teacherId', appointmentCtrl.index);
-router.post('/:teacherId', appointmentCtrl.create);
+router.post('/', appointmentCtrl.create);
 router.delete('/:appointmentId', appointmentCtrl.remove);
 router.put('/:appointmentId', appointmentCtrl.update);
 module.exports = router;

@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Appointment = require("../models/appointment");
 const Session = require("../models/session");
 const TeacherProfile = require('../models/teacherProfile');
+const sendNotifications = require('../services/emailService');
 module.exports = {
   getTeachers,
   getAppointments,
@@ -66,14 +67,6 @@ async function create(req, res) {
     const user = req.user;
     let appointment = {};
     const { date, startTime, teacher } = req.body;
-    if (user.role === "teacher") {
-      appointment = {
-        date,
-        startTime,
-        status: "blocked",
-        teacher: req.user._id,
-      };
-    } else {
       appointment = {
         date,
         startTime,
@@ -81,10 +74,18 @@ async function create(req, res) {
         student: req.user._id,
         teacher: teacher,
       };
-    }
-    console.log(appointment);
+   
     const newAppointment = await Appointment.create(appointment);
+    const teacherDetail = await User.findById(teacher);
+    const appointmentDetail = {
+      date,
+      time: startTime,
+      teacher: teacherDetail.name,
+      student: req.body.name
+    }
+    sendNotifications("Your Booking with Schedula is Confirmed", req.user.email,"confirmation",appointmentDetail);
     res.json(newAppointment);
+    
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Failed to book appointment" });

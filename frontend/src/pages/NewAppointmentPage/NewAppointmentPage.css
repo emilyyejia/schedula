@@ -1,6 +1,21 @@
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  background-color: #f00ba7; /* Bootstrap primary */
+  background-color: #f00ba7; 
   color: white;
   border-radius: 50%;
+}
+.btn-pink {
+  background-color: #ff69b4;
+  color: white;
+  border: 1px solid #dee2e6;
+}
+
+.btn-rose {
+  background-color: #e30f79;
+  color: white;
+  border: 1px solid #dee2e6;
+}
+
+.btn-rose:hover {
+  background-color: #df1777;
 }

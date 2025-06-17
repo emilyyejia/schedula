@@ -236,8 +236,8 @@ export default function NewAppointmentPage() {
                     type="button"
                     className={`btn border 
                    ${slot.isBooked ? 'btn-dark'
-                        : slot.isBlocked ? 'btn-primary'
-                          : selectedSlot === slot.time ? 'btn-primary'
+                        : slot.isBlocked ? 'btn-secondary'
+                          : selectedSlot === slot.time ? 'btn-pink'
                             : 'btn-light'}`}
 
                     disabled={slot.isBooked || slot.isBlocked}
