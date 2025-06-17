@@ -22,7 +22,7 @@ export default function bookAppointmentPage() {
             <div className="d-flex flex-wrap justify-content-center mt-4">
                 {teachers.map((teacher, index) => (
                     <div key={index} className="card m-5" style={{ width: '17rem' }}>
-                        <img src={teacher.photo} style={{ height: '13rem' }} className="card-img-top" alt="teacher photo"  />
+                        <img src={teacher.photo} style={{ height: '13rem', objectFit: 'cover' }} className="card-img-top" alt="teacher photo"  />
                         <div className="card-body">
                             <h5 className="card-title"> {teacher.teacher.name}</h5>
                             <p className="card-text">{teacher.bio}</p>

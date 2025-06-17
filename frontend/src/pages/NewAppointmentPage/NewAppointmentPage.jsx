@@ -6,39 +6,40 @@ import './NewAppointmentPage.css';
 export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
   const [sessions, setSessions] = useState([]);
+  const [teacherProfile, setTeacherProfile] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
   const { teacherId, appointmentId } = useParams();
-    const [ holidays, setHolidays] = useState([]);
-    useEffect(() => {
-      async function loadDefaultData() {
-        const res = await fetch("https://canada-holidays.ca//api/v1/provinces/ON");
-        console.log(res);
-        if (res.ok) {
-          const data = await res.json();
-          console.log(data)
-          setHolidays(data.province.holidays);
-        }  
-        
+  const [holidays, setHolidays] = useState([]);
+  useEffect(() => {
+    async function loadDefaultData() {
+      const res = await fetch("https://canada-holidays.ca//api/v1/provinces/ON");
+      console.log(res);
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data)
+        setHolidays(data.province.holidays);
       }
-      loadDefaultData();
-    }, []);
+
+    }
+    loadDefaultData();
+  }, []);
   console.log('appId', appointmentId);
   console.log(holidays);
   const navigate = useNavigate();
- 
-   const isDateHoliday = (date) => {
+
+  const isDateHoliday = (date) => {
     const dateStr = date.toISOString().split('T')[0];
     const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
-    if (weekday === 'Sat' || weekday ==='Sun') {
+    if (weekday === 'Sat' || weekday === 'Sun') {
       return true;
-    } else if (holidays.some(holiday => holiday.date === dateStr )) {
+    } else if (holidays.some(holiday => holiday.date === dateStr)) {
       return true;
-    } else return false;   
+    } else return false;
   }
-  
+
 
   const getOneWeek = () => {
     const dates = [];
@@ -50,7 +51,7 @@ export default function NewAppointmentPage() {
         value: date.toISOString().split('T')[0],
         dayNum: date.getDate(),
         weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
-        isHoliday: isDateHoliday(date)    
+        isHoliday: isDateHoliday(date)
       });
     }
     return dates;
@@ -63,18 +64,23 @@ export default function NewAppointmentPage() {
     async function fetchAppointments() {
       const res = await appointmentService.index(selectedDate, teacherId);
       setAppointments(res.appointments);
+      const teacherProfiles = await appointmentService.getTeachers();
+      console.log(teacherProfiles);
+      const teacherProfile = teacherProfiles.find(profile => String(profile.teacher._id) === teacherId);
+      console.log(teacherProfile);
+      setTeacherProfile(teacherProfile);
       const allBlockedTimeSlots = res.sessions.flatMap(session => session.blockedTimeSlots || []);
       setSessions(allBlockedTimeSlots);
       console.log(res);
       console.log(allBlockedTimeSlots);
       setTimeSlots(renderTimeSlots(appointments, allBlockedTimeSlots, selectedDate));
-     
+
     }
     fetchAppointments();
-  
+
   }, [selectedDate]);
 
-   useEffect(() => {
+  useEffect(() => {
     setTimeSlots(renderTimeSlots(appointments, sessions, selectedDate));
   }, [appointments, sessions, selectedDate]);
 
@@ -130,29 +136,59 @@ export default function NewAppointmentPage() {
         teacher: teacherId
       }
       const newAppointment = await appointmentService.create(appointmentData);
-      setAppointments( appointments => [...appointments, newAppointment]);
+      setAppointments(appointments => [...appointments, newAppointment]);
       navigate('/appointments/all');
     }
-    
+
   }
+  console.log(teacherId);
+  console.log(teacherProfile);
   return (
-    < div >
-      <div className="calendar container mt-4 text-center bg-white">
-        <h2 className="mb-3">Schedula for clients</h2>
-        <h4 className="mb-3">Select Time</h4>
-        <div className="container mt-4">
-          <h5 className="mb-3">{monthYear}</h5>
+    < div className="container py-5 mt-5" >
+        <div className="d-flex gap-4 flex-row justify-content-center">
+           {teacherProfile? (
+        <div style={{ width: '22rem' }}>
+        <div className="card m-3 ml-4" >
+          <img
+            src={teacherProfile.photo}
+            alt="Teacher"
+            className="card-img-top"
+            style={{ weight:'100%',height: '100%', objectFit: 'cover' }}
+          />
+          <div className="card-body">
+            <div className="card-title">
+              <h5>{teacherProfile.teacher.name}</h5>
+            </div>
+             {teacherProfile.subjects && teacherProfile.subjects.length > 0 ? (
+    teacherProfile.subjects.map((subject, index) => (
+      <span key={index} className="badge text-bg-secondary me-1">
+        {subject}
+      </span>
+    ))
+  ) : (
+    <span className="badge text-bg-secondary">N/A</span>
+  )}
+            <p className="card-text">{teacherProfile.bio || 'No bio available.'}</p>
+          </div>
+        </div>
+      </div>
+       ): (
+        <p>Loading</p>
+       )}
+        <div className="container text-center">
+           <h4 className="mb-3">Select Time</h4>
+          <h5 className="mb-3 just-content-center">{monthYear}</h5>
           <div className="d-flex overflow-auto mb-3 justify-content-center">
             {sevenDays.map(({ dayNum, weekday, value, isHoliday }) => (
               <button
                 key={value}
                 className={`btn border rounded-circle me-2 d-flex align-items-center custom-btn
                   ${selectedDate === value ? 'btn-secondary' : 'btn-light'}
-                  ${isHoliday? 'disabled-btn': ''}`}
-                 
+                  ${isHoliday ? 'disabled-btn' : ''}`}
+
                 style={{ width: '60px', height: '60px', flexShrink: 0 }}
 
-                onClick={() => !isHoliday&&handleDateClick(value)}
+                onClick={() => !isHoliday && handleDateClick(value)}
                 disabled={isHoliday}
               >
                 <div>{dayNum}</div>
@@ -181,13 +217,23 @@ export default function NewAppointmentPage() {
                 ))}
 
               </div>
-              <button type="submit" className="btn btn-light border mt-3"> Book </button>
+              <div className="text-center">
+                 <button 
+              type="submit" 
+              className="btn btn-secondary border mt-3"
+              style={{ width: '4rem', padding: '0.25rem 0.5rem' }}
+              >
+                 Book 
+              </button>
+
+              </div>
             </form>
 
           </div>
         </div>
+   
+  </div>
+      
       </div>
-
-    </div>
   );
 }

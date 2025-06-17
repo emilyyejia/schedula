@@ -55,8 +55,8 @@ export default function NavBar({ user }) {
                   <li><span className="dropdown-item-text fw-bold py-2">Welcome, {user.name}</span></li>
                   {user.role === 'student' ? (
                     <>
+                      <li><NavLink className="dropdown-item " to="/appointments">View Teachers</NavLink></li>
                       <li><NavLink className="dropdown-item " to="/appointments/all">Appointments</NavLink></li>
-                      <li><NavLink className="dropdown-item " to="/appointments">Book Your Slot</NavLink></li>
                       <li><Link to="/" className="dropdown-item " onClick={handleLogOut}>Log Out</Link></li>
                     </>
                   ) : (
@@ -71,8 +71,8 @@ export default function NavBar({ user }) {
                 <>
                   <li><NavLink className="dropdown-item fw-bold py-2" to="/">Home</NavLink></li>
                   <li><NavLink className="dropdown-item" to="/signin">Sign Up/Log In</NavLink></li>
-                  <li><NavLink className="dropdown-item" to="/">Find Your Teacher</NavLink></li>
-                  <li><NavLink className="dropdown-item" to="/">Contact Us</NavLink></li>                   
+                  <li><NavLink className="dropdown-item" to="/">Schedula</NavLink></li>
+                  <li><NavLink className="dropdown-item" to="/">About Us</NavLink></li>                   
                 </>
               )}
             </ul>
