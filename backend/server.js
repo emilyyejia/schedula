@@ -11,7 +11,8 @@ app.use(express.json());
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/appointments", require("./routes/appointment"));
-app.use("/api/sessions", require('./routes/sessions'));
+app.use("/api/teachers", require("./routes/teacher"));
+app.use("/api/sessions", require('./routes/session'));
 app.get("/*splat", function (req, res) {
   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });

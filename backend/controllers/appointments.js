@@ -43,7 +43,7 @@ async function index(req, res) {
   try {
     const dateBegin = new Date(req.query.date);
     const dateEnd = new Date(req.query.date);
-    dateEnd.setDate(dateEnd.getDate() + 7);
+    dateEnd.setDate(dateEnd.getDate() + 30);
     const teacherId = req.params.teacherId;
     const appointments = await Appointment.find({
       teacher: teacherId,
@@ -64,7 +64,6 @@ async function index(req, res) {
 
 async function create(req, res) {
   try {
-    const user = req.user;
     let appointment = {};
     const { date, startTime, teacher } = req.body;
       appointment = {
@@ -78,10 +77,10 @@ async function create(req, res) {
     const newAppointment = await Appointment.create(appointment);
     const teacherDetail = await User.findById(teacher);
     const appointmentDetail = {
-      date,
+      date: new Date (date).toISOString().split("T")[0],
       time: startTime,
       teacher: teacherDetail.name,
-      student: req.body.name
+      student: req.user.name
     }
     sendNotifications("Your Booking with Schedula is Confirmed", req.user.email,"confirmation",appointmentDetail);
     res.json(newAppointment);

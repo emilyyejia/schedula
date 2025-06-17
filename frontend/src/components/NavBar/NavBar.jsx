@@ -13,10 +13,6 @@ export default function NavBar({ user }) {
   function handleLogOut() {
     logOut();
     setUser(null);
-    // navigate('/') not working; 
-    // The<Link> that was clicked will navigate to '/'
-    // Due to async issues
-
   }
   return (
 

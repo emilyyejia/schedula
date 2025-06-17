@@ -6,6 +6,7 @@ import BookAppointmentPage from '../BookAppointmentPage/BookAppointmentPage';
 import MyAppointmentPage from '../MyAppointmentPage/MyAppointmentPage'
 import NewAppointmentPage from '../NewAppointmentPage/NewAppointmentPage';
 import NavBar from '../../components/NavBar/NavBar';
+import Footer from '../../components/Footer/Footer';
 import SignInPage from '../SignInPage/SignInPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
 import { getUser } from '../../services/authService';
@@ -41,7 +42,9 @@ export default function App() {
           </Routes>
         )}
       </section>
+      <Footer/>
     </main>
+    
   );
 }
 
