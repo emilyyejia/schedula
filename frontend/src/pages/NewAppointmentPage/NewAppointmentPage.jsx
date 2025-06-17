@@ -2,15 +2,17 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router";
 import * as appointmentService from '../../services/appointmentsService';
 import './NewAppointmentPage.css';
+import calendarSvg from '../../assets/calendar.svg';
+import DatePicker from 'react-datepicker';
 
 export default function NewAppointmentPage() {
   const [appointments, setAppointments] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [teacherProfile, setTeacherProfile] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
+  const [showPicker, setShowPicker] = useState(false);
   const { teacherId, appointmentId } = useParams();
   const [holidays, setHolidays] = useState([]);
   useEffect(() => {
@@ -26,8 +28,6 @@ export default function NewAppointmentPage() {
     }
     loadDefaultData();
   }, []);
-  console.log('appId', appointmentId);
-  console.log(holidays);
   const navigate = useNavigate();
 
   const isDateHoliday = (date) => {
@@ -43,7 +43,7 @@ export default function NewAppointmentPage() {
 
   const getOneWeek = () => {
     const dates = [];
-    const today = new Date();
+    const today = new Date(selectedDate);
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
@@ -141,44 +141,75 @@ export default function NewAppointmentPage() {
     }
 
   }
-  console.log(teacherId);
-  console.log(teacherProfile);
+  const today = new Date();
+  const startDate = new Date(today);
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate() + 30);
+  const togglePicker = () => {
+    setShowPicker((prev) => !prev);
+  }
   return (
-    < div className="container py-5 mt-5" >
-        <div className="d-flex gap-4 flex-row justify-content-center">
-           {teacherProfile? (
-        <div style={{ width: '22rem' }}>
-        <div className="card m-3 ml-4" >
-          <img
-            src={teacherProfile.photo}
-            alt="Teacher"
-            className="card-img-top"
-            style={{ weight:'100%',height: '100%', objectFit: 'cover' }}
-          />
-          <div className="card-body">
-            <div className="card-title">
-              <h5>{teacherProfile.teacher.name}</h5>
+    < div className="container py-5 mt-5" style={{ maxWidth: '1000px' }} >
+      <div className="d-flex gap-4 flex-row justify-content-center">
+        {teacherProfile ? (
+          <div style={{ width: '22rem' }}>
+            <div className="card m-3 ml-4" >
+              <img
+                src={teacherProfile.photo}
+                alt="Teacher"
+                className="card-img-top"
+                style={{ weight: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <div className="card-body">
+                <div className="card-title">
+                  <h5>{teacherProfile.teacher.name}</h5>
+                </div>
+                {teacherProfile.subjects && teacherProfile.subjects.length > 0 ? (
+                  teacherProfile.subjects.map((subject, index) => (
+                    <span key={index} className="badge text-bg-secondary me-1">
+                      {subject}
+                    </span>
+                  ))
+                ) : (
+                  <span className="badge text-bg-secondary">N/A</span>
+                )}
+                <p className="card-text">{teacherProfile.bio || 'No bio available.'}</p>
+              </div>
             </div>
-             {teacherProfile.subjects && teacherProfile.subjects.length > 0 ? (
-    teacherProfile.subjects.map((subject, index) => (
-      <span key={index} className="badge text-bg-secondary me-1">
-        {subject}
-      </span>
-    ))
-  ) : (
-    <span className="badge text-bg-secondary">N/A</span>
-  )}
-            <p className="card-text">{teacherProfile.bio || 'No bio available.'}</p>
           </div>
-        </div>
-      </div>
-       ): (
-        <p>Loading</p>
-       )}
-        <div className="container text-center">
-           <h4 className="mb-3">Select Time</h4>
-          <h5 className="mb-3 just-content-center">{monthYear}</h5>
-          <div className="d-flex overflow-auto mb-3 justify-content-center">
+        ) : (
+          <p>Loading</p>
+        )}
+        <div className="container" style={{ maxWidth: '700px' }}>
+          <div className="d-flex align-items-center mt-4">
+            <div >
+              <h3 className="mb-3">Select Time</h3>
+            </div>
+
+            <div className="position-relative ms-auto me-4">
+              <button className='btn border d-flex py-2' type="button" onClick={togglePicker}>
+                <img src={calendarSvg} alt="Calendar" width={24} height={22} />
+              </button>
+              {showPicker && (
+                <div className="position-absolute z-3 mt-2 rounded-3"
+                  style={{ bottom: '-30px', left: '-250px' }} >
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => {
+                      setSelectedDate(date);
+                      setShowPicker(false);
+                    }}
+                    inline
+                    minDate={startDate}
+                    maxDate={endDate}
+                  />
+                </div>
+              )}
+            </div>
+
+          </div>
+
+          <div className="d-flex mt-3 justify-content-center">
             {sevenDays.map(({ dayNum, weekday, value, isHoliday }) => (
               <button
                 key={value}
@@ -218,22 +249,22 @@ export default function NewAppointmentPage() {
 
               </div>
               <div className="text-center">
-                 <button 
-              type="submit" 
-              className="btn btn-secondary border mt-3"
-              style={{ width: '4rem', padding: '0.25rem 0.5rem' }}
-              >
-                 Book 
-              </button>
+                <button
+                  type="submit"
+                  className="btn light border mt-3"
+                  style={{ width: '4rem', padding: '0.25rem 0.5rem' }}
+                >
+                  Book
+                </button>
 
               </div>
             </form>
 
           </div>
         </div>
-   
-  </div>
-      
+
       </div>
+
+    </div>
   );
 }

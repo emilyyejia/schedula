@@ -29,7 +29,7 @@ export default function MyAppointmentPage() {
   }
 
   return (
-    <div className="main-page">
+    <div>
       <h1 className="text-center py-3"> Upcoming Appointments</h1>
       <div className="container mt-4">
         {appointments.length ?
