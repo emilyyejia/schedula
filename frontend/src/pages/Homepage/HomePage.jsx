@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import './HomePage.css';
 import * as teacherService from '../../services/teachersService';
 import { useEffect } from 'react';
+import AboutUsMap from '../../components/AboutUs/AboutUs';
 
 export default function HomePage() {
     const [searchText, setSearchText] = useState('');
@@ -83,7 +84,7 @@ export default function HomePage() {
                         <p className="text-center fs-3 mt-3">No teachers found for "{searchText}"</p>
                     ) : null}
                 </div>
-            </div>                 
+            </div>
             <div className="container mt-5">
                 <h3 className="text-center mb-4">Why Choose Schedula?</h3>
                 <div className="row text-center">
@@ -108,6 +109,20 @@ export default function HomePage() {
                 <h3>Ready to get started?</h3>
                 <p>Sign up and book your first session in minutes.</p>
                 <Link to="/signin" className="btn btn-pink btn-lg mt-2">Create Free Account</Link>
+            </div>
+
+            <div className="text-center mt-5">
+                <h3>About Us</h3>
+                <h5>📍 Our Location</h5>
+                <p>Room 904, OISE, University of Toronto<br />Toronto, ON M5S 1V6<br />Canada</p>
+
+                <h5 className="mt-4">🕒 Working Hours</h5>
+                <p>
+                    Monday – Friday: 10:00 AM – 5:00 PM<br />
+                </p>
+                <div className='row'>
+                    <AboutUsMap></AboutUsMap>
+                </div>
             </div>
 
         </div>
