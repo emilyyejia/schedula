@@ -26,7 +26,7 @@ export default function bookAppointmentPage() {
                         <div className="card-body">
                             <h5 className="card-title"> {teacher.teacher.name}</h5>
                             <p className="card-text">{teacher.bio}</p>
-                            <Link class="btn btn-dark" to={`/appointments/${teacher.teacher._id}/new`}>Book Your Slot</Link>
+                            <Link className="btn btn-dark" to={`/appointments/${teacher.teacher._id}/new`}>Book Your Slot</Link>
                         </div>
                     </div>
                 ))}

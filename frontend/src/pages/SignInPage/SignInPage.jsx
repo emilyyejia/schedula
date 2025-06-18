@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate,useLocation } from 'react-router';
 import { checkUser } from '../../services/authService';
 import { GoogleLogin } from '@react-oauth/google';
 import { Form } from 'react-bootstrap';
@@ -7,7 +7,7 @@ import { googleLogin } from '../../services/authService';
 export default function SignInPage({ setUser }) {
   const [formData, setFormData] = useState({ email: '' });
   const [errorMsg, setErrorMsg] = useState('');
-
+  const location = useLocation();
   const navigate = useNavigate();
 
   function handleChange(evt) {
@@ -22,10 +22,10 @@ export default function SignInPage({ setUser }) {
       const exists = await checkUser(formData.email);
       console.log(exists);
       if (exists) {
-        navigate(`/login?email=${encodeURIComponent(formData.email)}`);
+        navigate(`/login?email=${encodeURIComponent(formData.email)}`, {state: location.state});
 
       } else {
-        navigate('/signup');
+        navigate('/signup', { state: location.state});
 
       }
 
@@ -42,8 +42,9 @@ export default function SignInPage({ setUser }) {
       const body = await googleLogin(token);
       setUser(body.user);
       console.log(body.user);
+      const from = location.state?.from|| '/appointments';
       if( body.user.role === "student") {
-        navigate('/appointments');
+        navigate(from);
       } else navigate('/sessions/new');
       
     } catch (err) {

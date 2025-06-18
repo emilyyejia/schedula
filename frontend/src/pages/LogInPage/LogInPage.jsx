@@ -23,7 +23,8 @@ export default function LogInPage({ setUser }) {
       const user = await authService.logIn(formData);
       setUser(user);
       if (user.role === "student"){
-        navigate('/appointments');
+        const from = location.state?.from|| '/appointments';
+        navigate(from);
       } else navigate('/sessions/new');
       
     } catch (err) {

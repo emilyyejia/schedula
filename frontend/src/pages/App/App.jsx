@@ -26,7 +26,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/appointments" element={<BookAppointmentPage />} />
             <Route path="/appointments/all" element={<MyAppointmentPage />} />
-            <Route path="/appointments/:teacherId/new" element={<NewAppointmentPage />}  />
+            <Route path="/appointments/:teacherId/new" element={<NewAppointmentPage user={user}/>}  />
             <Route path="/appointments/reschedule/:appointmentId/:teacherId" element={<NewAppointmentPage />} />
             <Route path="/sessions" element={<MySessionsPage />} />
             <Route path="/sessions/new" element={<ManageSessionsPage />} />
@@ -38,6 +38,7 @@ export default function App() {
             <Route path="/signin" element={<SignInPage setUser={setUser} />} />
             <Route path="/signup" element={<SignUpPage setUser={setUser} />} />
             <Route path="/login" element={<LogInPage setUser={setUser} />} />
+            <Route path="/appointments/:teacherId/new" element={<NewAppointmentPage user={user} />}  />
             <Route path="*" element={null} />
           </Routes>
         )}

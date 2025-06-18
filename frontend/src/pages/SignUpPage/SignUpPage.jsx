@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { signUp } from '../../services/authService';
 import { Form } from 'react-bootstrap';
 export default function SignUpPage({ setUser }) {
@@ -10,7 +10,7 @@ export default function SignUpPage({ setUser }) {
         confirm: '',
     });
     const [errorMsg, setErrorMsg] = useState('');
-
+    const location = useLocation();
     const navigate = useNavigate();
 
     function handleChange(evt) {
@@ -22,7 +22,8 @@ export default function SignUpPage({ setUser }) {
         try {
             const user = await signUp(formData);
             setUser(user);
-            navigate('/appointments');
+            const from = location.state?.from || '/appointments';
+            navigate(from);
         } catch (err) {
             setErrorMsg('Sign Up Failed -Try Again');
             console.log(err);

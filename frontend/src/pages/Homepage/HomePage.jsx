@@ -55,7 +55,7 @@ export default function HomePage() {
                 {searchText && searchedInfo.length > 0 ? (
                     searchedInfo.map((teacherObj, idx) => (
                         <Link
-                            to="/signin"
+                            to={`/appointments/${teacherObj.teacher._id}/new`}
                             key={idx}
                             className="card my-3 shadow-sm text-decoration-none text-dark"
                             style={{ maxWidth: '600px', margin: 'auto', display: 'block' }}

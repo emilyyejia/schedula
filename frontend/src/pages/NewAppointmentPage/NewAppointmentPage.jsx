@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useLocation } from "react-router";
 import * as appointmentService from '../../services/appointmentsService';
 import './NewAppointmentPage.css';
 import calendarSvg from '../../assets/calendar.svg';
 import DatePicker from 'react-datepicker';
 
-export default function NewAppointmentPage() {
+export default function NewAppointmentPage({user}) {
   const [appointments, setAppointments] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [teacherProfile, setTeacherProfile] = useState(null);
@@ -29,7 +29,7 @@ export default function NewAppointmentPage() {
     loadDefaultData();
   }, []);
   const navigate = useNavigate();
-
+  const location = useLocation();
   const isDateHoliday = (date) => {
     const dateStr = date.toISOString().split('T')[0];
     const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
@@ -130,7 +130,9 @@ export default function NewAppointmentPage() {
       navigate('/appointments/all');
 
     } else {
-      const appointmentData = {
+      console.log(user);
+      if(user) {
+        const appointmentData = {
         date: new Date(selectedDate),
         startTime: selectedSlot,
         teacher: teacherId
@@ -138,6 +140,11 @@ export default function NewAppointmentPage() {
       const newAppointment = await appointmentService.create(appointmentData);
       setAppointments(appointments => [...appointments, newAppointment]);
       navigate('/appointments/all');
+
+      } else {
+        navigate('/signin', {state: {from: location.pathname}});
+      }
+      
     }
 
   }
