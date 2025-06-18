@@ -2,76 +2,63 @@ import { NavLink, Link, useNavigate } from 'react-router';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { logOut } from '../../services/authService';
 import './NavBar.css';
-import { useState } from 'react';
+
 
 export default function NavBar({ user }) {
   const navigate = useNavigate();
-  const [expanded, setExpanded] = useState(false);
-  function handleMenu() {
-    setExpanded(false);
-  }
   function handleLogOut() {
     logOut();
     setUser(null);
   }
   return (
 
-    <Navbar expand={false} expanded={expanded} onToggle={setExpanded} className="bg-body-tertiary">
+        <Navbar expand="md" bg="white" variant="light" className="fixed-top"> 
       <Container>
         <Navbar.Brand as={NavLink} to="/" className="my-navbar-brand">Schedula</Navbar.Brand>
 
-        <div className="d-flex align-items-center ms-auto">
-          {user?.avatar && (
-            <div className="p-2 me-3">
-              <img
-                src={user.avatar}
-                width="34"
-                height="34"
-                className="rounded-circle my-nav-bar-avatar"
-                referrerPolicy="no-referrer"
-                alt="Avatar"
-              />
-            </div>
-          )}
-          <div className="dropdown">
-            <button
-              className="navbar-toggler"
-              type="button"
-              id="dropdownToggler"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              style={{ boxShadow: 'none' }}
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <ul className="dropdown-menu mt-3 dropdown-menu-end" aria-labelledby="dropdownMenu2">
-              {user ? (
-                <>
-                  <li><span className="dropdown-item-text fw-bold py-2">Welcome, {user.name}</span></li>
-                  {user.role === 'student' ? (
-                    <>
-                      <li><NavLink className="dropdown-item " to="/appointments">View Teachers</NavLink></li>
-                      <li><NavLink className="dropdown-item " to="/appointments/all">Appointments</NavLink></li>
-                      <li><Link to="/" className="dropdown-item " onClick={handleLogOut}>Log Out</Link></li>
-                    </>
-                  ) : (
-                    <>
-                      <li><NavLink className="dropdown-item " to="/sessions">Sessions</NavLink></li>
-                      <li><NavLink className="dropdown-item " to="/sessions/new">Set Your Time</NavLink></li>
-                      <li><Link to="/" className="dropdown-item " onClick={handleLogOut}>Log Out</Link></li>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  <li><NavLink className="dropdown-item fw-bold py-2" to="/">Home</NavLink></li>
-                  <li><NavLink className="dropdown-item" to="/signin">Sign Up/Log In</NavLink></li>             
-                </>
-              )}
-            </ul>
-          </div>
-        </div>
+        <Navbar.Collapse id="responsive-navbar-nav"> 
+          <Nav className="ms-auto align-items-center"> 
+            {user?.avatar && (
+              <div>
+                <img
+                  src={user.avatar}
+                  width="34"
+                  height="34"
+                  className="rounded-circle my-nav-bar-avatar"
+                  referrerPolicy="no-referrer"
+                  alt="Avatar"
+                />
+              </div>
+            )}
+            {user ? (
+              <>
+                <span className="nav-link fw-bold">Welcome, {user.name}</span> 
+                {user.role === 'student' ? (
+                  <>
+                    <Nav.Link as={NavLink} to="/appointments">View Teachers</Nav.Link>
+                    <Nav.Link as={NavLink} to="/appointments/all">Appointments</Nav.Link>
+                    <Nav.Link as={Link} to="/" onClick={handleLogOut}>Log Out</Nav.Link>
+                  </>
+                ) : (
+                  <>
+                    <Nav.Link as={NavLink} to="/sessions">Sessions</Nav.Link>
+                    <Nav.Link as={NavLink} to="/sessions/new">Set Your Time</Nav.Link>
+                    <Nav.Link as={Link} to="/" onClick={handleLogOut}>Log Out</Nav.Link>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+                <Nav.Link as={NavLink} to="/signin">Sign Up/Log In</Nav.Link>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+
+        {/* The Navbar.Toggle will be visible on smaller screens if you keep expand="md" or "lg" */}
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
       </Container>
     </Navbar>
   );

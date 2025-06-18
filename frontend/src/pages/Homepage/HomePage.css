@@ -1,7 +1,8 @@
-.homepage {
-  background-image: url("../../assets/background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  min-height: 100vh;
+
+.form-control:focus {
+  box-shadow: none !important;
+  border-color: #ced4da !important;
+}
+.main{
+  background: linear-gradient(to right, #bf2f8a, #ebe6f0)
 }

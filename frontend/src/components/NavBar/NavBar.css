@@ -3,24 +3,30 @@
   font-weight: bold;
 }
 
-.my-nav-bar-avatar {
-  margin-right: 1%;
+.navbar .nav-link {
+  font-weight: bold;
+  color: black; 
+  margin-right: 15px; 
+  padding: 8px 12px; 
+  transition: all 0.3s ease; 
+  border:none;
 }
 
-.my-nav-bar{
-  position: absolute !important;
-  left: auto;
-  right: 0;
-  z-index: 1050;
-}
-.dropdown-item:hover,
-.dropdown-item:focus {
-  background-color: transparent !important;
-  color: inherit !important;
+.navbar .nav-link:hover {
+  color: black;
 }
 
-.dropdown-item.active,
-.dropdown-item:active {
-  background-color: transparent !important;
-  color: inherit !important;
+.navbar .nav-link.active {
+  color: #e3098f; 
+  font-weight: bold;
+ 
+}
+
+.nav-clean {
+  padding: 0.25rem 0.5rem;  
+  border: none !important;  
+  background: none !important; 
+  box-shadow: none !important;
+  margin: 0 0.25rem;               
+  text-decoration: none;   
 }

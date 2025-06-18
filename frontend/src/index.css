@@ -10,6 +10,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#main-section {
+  padding-top: 100px; 
+  padding-bottom: 50px; 
+}
 
 * {
   box-sizing: border-box;
@@ -73,11 +77,10 @@ h2 {
 }
 
 .error-message {
-  color: rgb(166, 29, 29);
+  color: black;
 }
 
 .btn-pink {
-  background-color: #db398a; /* hot pink */
-  color: white;
+  background-color: #db398a; 
   border: none;
 }
