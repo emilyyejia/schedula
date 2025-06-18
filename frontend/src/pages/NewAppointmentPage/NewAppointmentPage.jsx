@@ -21,7 +21,6 @@ export default function NewAppointmentPage({user}) {
       console.log(res);
       if (res.ok) {
         const data = await res.json();
-        console.log(data)
         setHolidays(data.province.holidays);
       }
 
@@ -31,7 +30,7 @@ export default function NewAppointmentPage({user}) {
   const navigate = useNavigate();
   const location = useLocation();
   const isDateHoliday = (date) => {
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = date.toLocaleDateString('en-CA'); 
     const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
     if (weekday === 'Sat' || weekday === 'Sun') {
       return true;
