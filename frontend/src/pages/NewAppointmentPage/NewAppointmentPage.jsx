@@ -39,10 +39,13 @@ export default function NewAppointmentPage({user}) {
     } else return false;
   }
 
-
+function parseLocalDate(dateString) {
+  const[ year, month, day] = dateString.split('-').map(Number);
+  return new Date(year, month-1, day);
+}
   const getOneWeek = () => {
     const dates = [];
-    const today = new Date(selectedDate);
+    const today = parseLocalDate(selectedDate);
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
@@ -57,7 +60,6 @@ export default function NewAppointmentPage({user}) {
   };
 
   const sevenDays = getOneWeek();
-  console.table(getOneWeek());
 
   useEffect(() => {
     async function fetchAppointments() {
@@ -95,11 +97,13 @@ export default function NewAppointmentPage({user}) {
     const slots = [];
     const filteredApp = appts.filter((appt) => {
       const apptDt = new Date(appt.date).toISOString().split('T')[0];
+      console.log(apptDt);
       return apptDt === selectedDate
 
     });
     const filteredBlock = blockedTimeSlots.filter((slot) => {
       const blockDate = new Date(slot.date).toISOString().split('T')[0];
+      console.log(blockDate);
       return blockDate === selectedDate;
     });
 
