@@ -2,20 +2,21 @@ import { useState, useEffect } from "react"
 // import './ManageSessionsPage.css';
 import * as sessionService from '../../services/sessionService';
 
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
 export default function ManageSessionsPage() {
   const [appointments, setAppointments] = useState([]);
   const [sessions, setSessions] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(tomorrow.toISOString().split('T')[0]);
   const monthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
 
   const getOneWeek = () => {
     const dates = [];
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
+    for (let i = 0; i < 8; i++) {
+      const date = new Date(tomorrow);
+      date.setDate(tomorrow.getDate() + i);
       dates.push({
         value: date.toISOString().split('T')[0],
         dayNum: date.getDate(),
@@ -89,9 +90,8 @@ export default function ManageSessionsPage() {
     <>
       <div className="calendar container mt-4 text-center">
         <h2 className="mb-3">Schedula for clients</h2>
-        <h4 className="mb-3">Block Time</h4>
+        <h4 className="mb-3 mt-3">Set Your Time</h4>
         <div className="container mt-4">
-          <h5 className="mb-3">{monthYear}</h5>
           <div className="d-flex overflow-auto mb-3 justify-content-center">
             {sevenDays.map(({ dayNum, weekday, value }) => (
               <button
