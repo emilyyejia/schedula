@@ -5,11 +5,14 @@ import './NewAppointmentPage.css';
 import calendarSvg from '../../assets/calendar.svg';
 import DatePicker from 'react-datepicker';
 
-export default function NewAppointmentPage({user}) {
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+export default function NewAppointmentPage({ user }) {
   const [appointments, setAppointments] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [teacherProfile, setTeacherProfile] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(tomorrow.toISOString().split('T')[0]);
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [showPicker, setShowPicker] = useState(false);
@@ -21,7 +24,6 @@ export default function NewAppointmentPage({user}) {
       console.log(res);
       if (res.ok) {
         const data = await res.json();
-        console.log(data)
         setHolidays(data.province.holidays);
       }
 
@@ -31,7 +33,7 @@ export default function NewAppointmentPage({user}) {
   const navigate = useNavigate();
   const location = useLocation();
   const isDateHoliday = (date) => {
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = date.toLocaleDateString('en-CA');
     const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
     if (weekday === 'Sat' || weekday === 'Sun') {
       return true;
@@ -40,11 +42,20 @@ export default function NewAppointmentPage({user}) {
     } else return false;
   }
 
+  function parseLocalDate(input) {
+    if (typeof input === 'string') {
+      const [year, month, day] = input.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    }
+    const d = new Date(input);
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
 
   const getOneWeek = () => {
     const dates = [];
-    const today = new Date(selectedDate);
-    for (let i = 0; i < 7; i++) {
+    const today = parseLocalDate(selectedDate);
+    for (let i = 0; i < 8; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       dates.push({
@@ -54,11 +65,12 @@ export default function NewAppointmentPage({user}) {
         isHoliday: isDateHoliday(date)
       });
     }
+
+
     return dates;
   };
 
   const sevenDays = getOneWeek();
-  console.table(getOneWeek());
 
   useEffect(() => {
     async function fetchAppointments() {
@@ -96,11 +108,13 @@ export default function NewAppointmentPage({user}) {
     const slots = [];
     const filteredApp = appts.filter((appt) => {
       const apptDt = new Date(appt.date).toISOString().split('T')[0];
+      console.log(apptDt);
       return apptDt === selectedDate
 
     });
     const filteredBlock = blockedTimeSlots.filter((slot) => {
       const blockDate = new Date(slot.date).toISOString().split('T')[0];
+      console.log(blockDate);
       return blockDate === selectedDate;
     });
 
@@ -131,30 +145,39 @@ export default function NewAppointmentPage({user}) {
 
     } else {
       console.log(user);
-      if(user) {
+      if (user) {
         const appointmentData = {
-        date: new Date(selectedDate),
-        startTime: selectedSlot,
-        teacher: teacherId
-      }
-      const newAppointment = await appointmentService.create(appointmentData);
-      setAppointments(appointments => [...appointments, newAppointment]);
-      navigate('/appointments/all');
+          date: new Date(selectedDate),
+          startTime: selectedSlot,
+          teacher: teacherId
+        }
+        const newAppointment = await appointmentService.create(appointmentData);
+        setAppointments(appointments => [...appointments, newAppointment]);
+        navigate('/appointments/all');
 
       } else {
-        navigate('/signin', {state: {from: location.pathname}});
+        navigate('/signin', { state: { from: location.pathname } });
       }
-      
+
     }
 
   }
-  const today = new Date();
-  const startDate = new Date(today);
+
+  const startDate = new Date(tomorrow);
   const endDate = new Date();
   endDate.setDate(endDate.getDate() + 30);
+
   const togglePicker = () => {
     setShowPicker((prev) => !prev);
   }
+ 
+  function toLocalDateString(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
   return (
     < div className="container py-5 mt-5" style={{ maxWidth: '1000px' }} >
       <div className="d-flex gap-4 flex-row justify-content-center">
@@ -199,11 +222,12 @@ export default function NewAppointmentPage({user}) {
               </button>
               {showPicker && (
                 <div className="position-absolute z-3 mt-2 rounded-3"
-                  style={{ bottom: '-30px', left: '-250px' }} >
+                  style={{ bottom: '-27px', left: '-250px' }} >
                   <DatePicker
-                    selected={selectedDate}
+                    selected={parseLocalDate(selectedDate)}
                     onChange={(date) => {
-                      setSelectedDate(date);
+                      const localStr = toLocalDateString(date);
+                      setSelectedDate(localStr);
                       setShowPicker(false);
                     }}
                     inline
@@ -263,7 +287,6 @@ export default function NewAppointmentPage({user}) {
                 >
                   Book
                 </button>
-
               </div>
             </form>
 

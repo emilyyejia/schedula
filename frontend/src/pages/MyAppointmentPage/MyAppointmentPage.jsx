@@ -11,9 +11,23 @@ export default function MyAppointmentPage() {
   
   useEffect(() => {
     async function fetchAppointments() {
-      const appointments = await appointmentService.allAppointments(today);
+      const res = await appointmentService.allAppointments(today);
+      const appointments = res.appointments;
+      const teacherProfiles = res.teacherProfiles;
+      const detailedAppointments = appointments.map( appt => {
+        const profile = teacherProfiles.find(
+          profile => profile.teacher === appt.teacher._id);
+        return {
+          ...appt,
+          teacher: {
+            ...appt.teacher,
+            photo: profile?.photo || '',
+            subjects: Array.isArray(profile?.subjects) ? profile.subjects : []
+          }
+        }
+      });
       console.log(appointments);
-      setAppointments(appointments);
+      setAppointments(detailedAppointments);
     }
     fetchAppointments();
   }, []);
@@ -30,30 +44,65 @@ export default function MyAppointmentPage() {
 
   return (
     <div>
-      <h1 className="text-center py-3"> Upcoming Appointments</h1>
-      <div className="container mt-4">
-        {appointments.length ?
-          <ul className="list-group">
-            {appointments.map((appointment) => <li key={appointment._id} className="list-group-item d-flex justify-content-between align-items-center">
-              {appointment.date.slice(0, 10) + ' '}{appointment.startTime + ' '}{appointment.teacher.name}
-              <span>
-                <button
-                  onClick={() => handleReschedule(appointment._id, appointment.teacher._id)}
-                  className="btn border m-2" > Reschedule</button>
-                <button
-                  onClick={() => handleDelete(appointment._id)}
-                  className="btn border"
-                > Cancel</button>
-              </span>
-            </li>)}
+  <h1 className="text-center fw-semibold py-3">Upcoming Booking</h1>
+  <div className="container mt-4">
+    {appointments.length ? (
+      <div className="row row-cols-1 row-cols-md-2 g-4">
+        {appointments.map((appointment) => (
+          <div key={appointment._id} className="col">
+            <div className="card h-100 d-flex flex-row p-3 align-items-start">
+            
+              <img
+                src={appointment.teacher.photo}
+                alt="Teacher"
+                className="rounded-circle"
+                style={{ width: '80px', height: '80px', objectFit: 'cover', marginRight: '1rem' }}
+              />
 
-          </ul>
-          :
-          <p>No Appointments Yet!</p>
-        }
 
+              <div className="flex-grow-1">
+                <h5 className="card-title mb-1">{appointment.teacher.name}</h5>
+
+          
+                {appointment.teacher.subjects?.length > 0 && (
+                  <div className="mb-1">
+                    {appointment.teacher.subjects.map((subject, idx) => (
+                      <span key={idx} className="badge bg-pink text-white me-1">
+                        {subject}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <p className="card-text mb-2">
+                  {appointment.date.slice(0, 10)} at {appointment.startTime}
+                </p>
+
+                <div className="d-flex gap-2">
+                  <button
+                    onClick={() => handleReschedule(appointment._id, appointment.teacher._id)}
+                    className="btn btn-outline-dark btn-sm"
+                  >
+                    Reschedule
+                  </button>
+                  <button
+                    onClick={() => handleDelete(appointment._id)}
+                    className="btn btn-outline-dark btn-sm"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
+    ) : (
+      <p className="text-center">No Appointments Yet!</p>
+    )}
+  </div>
+</div>
+
 
   );
 }

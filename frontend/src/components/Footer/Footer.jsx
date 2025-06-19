@@ -4,7 +4,7 @@ export default function Footer() {
     <footer className="mt-auto py-4" style={{ backgroundColor: 'white' }}>
       <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center">
         <div className="mb-3 mb-md-0 text-center text-md-start">
-          <span className="fw-bold">Schedula</span> &copy; {new Date().getFullYear()}
+          <span className="fw-bold">Schedula</span> by <span className="fw-bold">Ye Jia</span> &copy; {new Date().getFullYear()}
         </div>
         <div className="text-center text-md-end">
           <a

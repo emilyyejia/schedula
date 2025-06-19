@@ -37,7 +37,7 @@ export default function ManageSessionsPage() {
 
     fetchAppointments();
   }, [selectedDate]);
-    
+
   useEffect(() => {
     setTimeSlots(renderTimeSlots(appointments, sessions, selectedDate));
   }, [appointments, sessions, selectedDate]);
@@ -127,7 +127,16 @@ export default function ManageSessionsPage() {
                 ))}
 
               </div>
-              <button type="submit" className="btn btn-light border mt-3"> Block </button>
+              <div className="d-flex justify-content-center mt-3">
+                <button
+                  type="submit"
+                  className="btn light border"
+                  style={{ width: '4rem', padding: '0.25rem 0.5rem' }}
+                >
+                  Block
+                </button>
+              </div>
+
             </form>
 
           </div>
