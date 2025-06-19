@@ -40,8 +40,11 @@ export default function NewAppointmentPage({user}) {
   }
 
 function parseLocalDate(dateString) {
-  const[ year, month, day] = dateString.split('-').map(Number);
-  return new Date(year, month-1, day);
+  if (typeof dateString !== 'string') {
+    dateString = dateString.toISOString().split('T')[0];
+  }
+  const [year, month, day] = dateString.split('-');
+  return new Date(year, month - 1, day);
 }
   const getOneWeek = () => {
     const dates = [];
@@ -202,7 +205,7 @@ function parseLocalDate(dateString) {
               </button>
               {showPicker && (
                 <div className="position-absolute z-3 mt-2 rounded-3"
-                  style={{ bottom: '-30px', left: '-250px' }} >
+                  style={{ bottom: '-27px', left: '-250px' }} >
                   <DatePicker
                     selected={selectedDate}
                     onChange={(date) => {
@@ -266,7 +269,6 @@ function parseLocalDate(dateString) {
                 >
                   Book
                 </button>
-
               </div>
             </form>
 

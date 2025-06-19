@@ -34,7 +34,7 @@ export default function HomePage() {
     return (
         <div className="home-hero">
             <div className="text-center mb-5">
-                <div className="display-5 fw-bold py-3">Find Your Perfect Tutor</div>
+                <div className="display-5 fw-bold mb-2">Find Your Perfect Tutor</div>
                 <p >Search and book online sessions with trusted educators.</p>
                 <div className="container mt-4" style={{ maxWidth: "320px" }}>
                     <div className="input-group">
@@ -83,10 +83,10 @@ export default function HomePage() {
                         <p className="text-center fs-3 mt-3">No teachers found for "{searchText}"</p>
                     ) : null}
                 </div>
-            </div>                 
+            </div>
             <div className="container mt-5">
                 <h3 className="text-center mb-4">Why Choose Schedula?</h3>
-                <div className="row text-center">
+                <div className="row text-center gx-1">
                     <div className="col-md-4">
                         <i className="bi bi-clock-history display-5 mb-2"></i>
                         <h5>Flexible Scheduling</h5>
@@ -104,10 +104,49 @@ export default function HomePage() {
                     </div>
                 </div>
             </div>
+            <div className="container mt-5" style={{ maxWidth: '1000px' }}>
+                <h3 className="text-center mb-4">Meet Our Teachers</h3>
+                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
+                    {allTeachers.map((profile, idx) => (
+                        <div className="col" key={idx}>
+                            <div className="card h-100 text-center p-2 border-0" style={{ boxShadow: 'none' }}>
+                                <img
+                                    src={profile.photo}
+                                    className="card-img-top"
+                                    alt={profile.teacher.name}
+                                    style={{ height: '160px', objectFit: 'cover' }}
+                                />
+                                <div className="card-body py-2">
+                                    <h6 className="card-title mb-2">{profile.teacher.name}</h6>
+                                    <div className="d-flex flex-wrap justify-content-center gap-1">
+                                        {profile.subjects.map((subject, subIdx) => (
+                                            <span key={subIdx} className="badge bg-pink text-white">
+                                                {subject}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
             <div className="text-center mt-5">
                 <h3>Ready to get started?</h3>
                 <p>Sign up and book your first session in minutes.</p>
                 <Link to="/signin" className="btn btn-pink btn-lg mt-2">Create Free Account</Link>
+            </div>
+            <div className="text-center mt-5">
+                <div className="text-center mt-5 p-4">
+                    <h3>Working Hours</h3>
+                    <p>Monday to Friday: 10:00 AM - 5:00 PM</p>
+                    <p>Saturday: Closed</p>
+                    <p>Sunday: Closed</p>
+
+                    <h3 className="mt-4">Location</h3>
+                    <p>Room 904, OISE, 252 Bloor St W, Toronto, ON M5S 1V6</p>
+                </div>
+
             </div>
 
         </div>

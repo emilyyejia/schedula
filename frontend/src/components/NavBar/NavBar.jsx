@@ -36,7 +36,7 @@ export default function NavBar({ user }) {
                 {user.role === 'student' ? (
                   <>
                     <Nav.Link as={NavLink} to="/appointments">View Teachers</Nav.Link>
-                    <Nav.Link as={NavLink} to="/appointments/all">Appointments</Nav.Link>
+                    <Nav.Link as={NavLink} to="/appointments/all">Dashboard</Nav.Link>
                     <Nav.Link as={Link} to="/" onClick={handleLogOut}>Log Out</Nav.Link>
                   </>
                 ) : (

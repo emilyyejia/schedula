@@ -18,6 +18,7 @@ async function getTeachers(req, res) {
     const teachers = await TeacherProfile.find({ })
     .populate("teacher");
     res.json(teachers);
+    
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to fetch teachers" });
@@ -32,7 +33,8 @@ async function getAppointments(req, res) {
       date: {$gte: today}
     })
     .populate("teacher");
-    res.json(appointments);
+    const teacherProfiles = await TeacherProfile.find({});
+    res.json({appointments, teacherProfiles});
   } catch (err) {
         console.log(err);
     res.status(500).json({ message: "Failed to fetch appointments" });
