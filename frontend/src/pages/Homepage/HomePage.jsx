@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import './HomePage.css';
 import * as teacherService from '../../services/teachersService';
 import { useEffect } from 'react';
-import AboutUsMap from '../../components/AboutUs/AboutUs';
 
 export default function HomePage() {
     const [searchText, setSearchText] = useState('');
@@ -133,7 +132,7 @@ export default function HomePage() {
                     Monday – Friday: 10:00 AM – 5:00 PM<br />
                 </p>
                 <div className='row'>
-                    <AboutUsMap></AboutUsMap>
+                    
                 </div>
             </div>
 
