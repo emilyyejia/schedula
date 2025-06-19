@@ -28,11 +28,11 @@ Schedula streamlines the entire process—from finding the right tutor to confir
 ## Screenshot
 | Description    | Screenshots                                      |
 |---------------|-------------------------------------------------|
-| Search     | <img src="./frontend/src/assets/search.png" alt="search page"> |
-| Booking Page | <img src="./frontend/src/assets/book.png" alt="booking page"> |
-| Student Dashboard | <img src="./frontend/src/assets/studnetdashboard.png" alt="student dashboard"> |
-| Blocking Page     | <img src="./frontend/src/assets/blocktime.png" alt="blocking page"> |
-| Teacher Sessions  | <img src="./frontend/src/assets/sessions.png" alt="teacher sessions"> |
+| Search     | <img src="./frontend/src/assets/search.png" alt="search page" height="400" width="800"> |
+| Booking Page | <img src="./frontend/src/assets/book.png" alt="booking page" height="400" width="800"> |
+| Student Dashboard | <img src="./frontend/src/assets/studnetdashboard.png" alt="student dashboard" height="400" width="800"> |
+| Blocking Page     | <img src="./frontend/src/assets/blocktime.png" alt="blocking page" height="400" width="800"> |
+| Teacher Sessions  | <img src="./frontend/src/assets/sessions.png" alt="teacher sessions" height="400" width="800"> |
 
 
 ## Technologies Used
