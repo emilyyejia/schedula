@@ -5,11 +5,14 @@ import './NewAppointmentPage.css';
 import calendarSvg from '../../assets/calendar.svg';
 import DatePicker from 'react-datepicker';
 
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
 export default function NewAppointmentPage({ user }) {
   const [appointments, setAppointments] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [teacherProfile, setTeacherProfile] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(tomorrow.toISOString().split('T')[0]);
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [showPicker, setShowPicker] = useState(false);
@@ -159,10 +162,11 @@ export default function NewAppointmentPage({ user }) {
     }
 
   }
-  const today = new Date();
-  const startDate = new Date(today);
+
+  const startDate = new Date(tomorrow);
   const endDate = new Date();
   endDate.setDate(endDate.getDate() + 30);
+
   const togglePicker = () => {
     setShowPicker((prev) => !prev);
   }

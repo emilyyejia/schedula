@@ -104,33 +104,6 @@ export default function HomePage() {
                     </div>
                 </div>
             </div>
-            <div className="container mt-5" style={{ maxWidth: '1000px' }}>
-                <h3 className="text-center mb-4">Meet Our Teachers</h3>
-                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
-                    {allTeachers.map((profile, idx) => (
-                        <div className="col" key={idx}>
-                            <div className="card h-100 text-center p-2 border-0" style={{ boxShadow: 'none' }}>
-                                <img
-                                    src={profile.photo}
-                                    className="card-img-top"
-                                    alt={profile.teacher.name}
-                                    style={{ height: '160px', objectFit: 'cover' }}
-                                />
-                                <div className="card-body py-2">
-                                    <h6 className="card-title mb-2">{profile.teacher.name}</h6>
-                                    <div className="d-flex flex-wrap justify-content-center gap-1">
-                                        {profile.subjects.map((subject, subIdx) => (
-                                            <span key={subIdx} className="badge bg-pink text-white">
-                                                {subject}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
             <div className="text-center mt-5">
                 <h3>Ready to get started?</h3>
                 <p>Sign up and book your first session in minutes.</p>
