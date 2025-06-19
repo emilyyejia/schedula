@@ -5,7 +5,7 @@ import './NewAppointmentPage.css';
 import calendarSvg from '../../assets/calendar.svg';
 import DatePicker from 'react-datepicker';
 
-export default function NewAppointmentPage({user}) {
+export default function NewAppointmentPage({ user }) {
   const [appointments, setAppointments] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [teacherProfile, setTeacherProfile] = useState(null);
@@ -30,7 +30,7 @@ export default function NewAppointmentPage({user}) {
   const navigate = useNavigate();
   const location = useLocation();
   const isDateHoliday = (date) => {
-    const dateStr = date.toLocaleDateString('en-CA'); 
+    const dateStr = date.toLocaleDateString('en-CA');
     const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
     if (weekday === 'Sat' || weekday === 'Sun') {
       return true;
@@ -39,18 +39,20 @@ export default function NewAppointmentPage({user}) {
     } else return false;
   }
 
-function parseLocalDate(dateString) {
-  if (typeof dateString !== 'string') {
-    dateString = dateString.toISOString().split('T')[0];
+  function parseLocalDate(input) {
+    if (typeof input === 'string') {
+      const [year, month, day] = input.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    }
+    const d = new Date(input);
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
   }
-  const [year, month, day] = dateString.split('-');
-  return new Date(year, month - 1, day);
-}
+
 
   const getOneWeek = () => {
     const dates = [];
     const today = parseLocalDate(selectedDate);
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 8; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       dates.push({
@@ -60,6 +62,8 @@ function parseLocalDate(dateString) {
         isHoliday: isDateHoliday(date)
       });
     }
+
+
     return dates;
   };
 
@@ -138,20 +142,20 @@ function parseLocalDate(dateString) {
 
     } else {
       console.log(user);
-      if(user) {
+      if (user) {
         const appointmentData = {
-        date: new Date(selectedDate),
-        startTime: selectedSlot,
-        teacher: teacherId
-      }
-      const newAppointment = await appointmentService.create(appointmentData);
-      setAppointments(appointments => [...appointments, newAppointment]);
-      navigate('/appointments/all');
+          date: new Date(selectedDate),
+          startTime: selectedSlot,
+          teacher: teacherId
+        }
+        const newAppointment = await appointmentService.create(appointmentData);
+        setAppointments(appointments => [...appointments, newAppointment]);
+        navigate('/appointments/all');
 
       } else {
-        navigate('/signin', {state: {from: location.pathname}});
+        navigate('/signin', { state: { from: location.pathname } });
       }
-      
+
     }
 
   }
@@ -162,6 +166,14 @@ function parseLocalDate(dateString) {
   const togglePicker = () => {
     setShowPicker((prev) => !prev);
   }
+ 
+  function toLocalDateString(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
   return (
     < div className="container py-5 mt-5" style={{ maxWidth: '1000px' }} >
       <div className="d-flex gap-4 flex-row justify-content-center">
@@ -208,9 +220,10 @@ function parseLocalDate(dateString) {
                 <div className="position-absolute z-3 mt-2 rounded-3"
                   style={{ bottom: '-27px', left: '-250px' }} >
                   <DatePicker
-                    selected={selectedDate}
+                    selected={parseLocalDate(selectedDate)}
                     onChange={(date) => {
-                      setSelectedDate(date);
+                      const localStr = toLocalDateString(date);
+                      setSelectedDate(localStr);
                       setShowPicker(false);
                     }}
                     inline
