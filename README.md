@@ -14,9 +14,9 @@ Schedula is a modern scheduling platform that lets students discover and book se
 
 - No back-and-forth — students can book, reschedule, or cancel sessions based on teachers' real-time availability.
 
-- Showcase your expertise with subjects, bios, and profile photos to attract the right learners.
+- Showcase teachers' expertise with subjects, bios, and profile photos to attract the right learners.
 
-- Easily block off unavailable times and manage your weekly calendar. Students see only what you want them to see.
+- Easily block off unavailable times and manage weekly calendar as teachers. Students see only what teachers want them to see.
 
 Schedula streamlines the entire process—from finding the right tutor to confirming your session.
 
