@@ -101,6 +101,7 @@ export default function ManageSessionsPage() {
       <div className="calendar container mt-4 text-center">
         <h2 className="mb-3">Schedula for clients</h2>
         <h4 className="mb-3">Set Your Time</h4>
+        <h5>{selectedDate}</h5>
         <div className="container mt-4">
           <div className="d-flex overflow-auto mb-3 justify-content-center">
             {sevenDays.map(({ dayNum, weekday, value }) => (

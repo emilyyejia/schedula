@@ -144,8 +144,7 @@ export default function NewAppointmentPage({ user }) {
       navigate('/appointments/all');
 
     } else {
-      console.log(user);
-      if (user) {
+      if (user.role === "student") {
         const appointmentData = {
           date: new Date(selectedDate),
           startTime: selectedSlot,
@@ -155,6 +154,9 @@ export default function NewAppointmentPage({ user }) {
         setAppointments(appointments => [...appointments, newAppointment]);
         navigate('/appointments/all');
 
+      } else if(user.role ==="teacher") {
+        navigate('/sessions');
+        
       } else {
         navigate('/signin', { state: { from: location.pathname } });
       }
@@ -214,6 +216,7 @@ export default function NewAppointmentPage({ user }) {
           <div className="d-flex align-items-center mt-4">
             <div >
               <h3 className="mb-3">Select Time</h3>
+              <h5>{selectedDate}</h5>
             </div>
 
             <div className="position-relative ms-auto me-4">
