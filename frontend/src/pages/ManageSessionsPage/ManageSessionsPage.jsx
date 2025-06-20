@@ -97,7 +97,7 @@ export default function ManageSessionsPage() {
 
 
   return (
-    <>
+    <div className="container mt-4" style={{ maxWidth: '1000px' }}>
       <div className="calendar container mt-4 text-center">
         <h2 className="mb-3">Schedula for clients</h2>
         <h4 className="mb-3">Set Your Time</h4>
@@ -109,8 +109,7 @@ export default function ManageSessionsPage() {
                 key={value}
                 className={`btn border rounded-circle me-2 d-flex align-items-center custom-btn
                   ${selectedDate === value ? 'btn-secondary' : 'btn-light'}`}
-                style={{ width: '60px', height: '60px', flexShrink: 0 }}
-
+               style={{ width: '4rem', height: '4rem', fontSize: '1rem', flexShrink: 0 }}
                 onClick={() => handleDateClick(value)}
               >
                 <div>{dayNum}</div>
@@ -118,7 +117,7 @@ export default function ManageSessionsPage() {
               </button>
             ))}
           </div>
-          <div className="d-flex justify-content-center mt-3">
+          <div className="d-flex flex-column align-items-center mt-3 px-2">
             <form onSubmit={handleSubmit} className="text-center">
               <div className="d-flex flex-wrap gap-2 justify-content-center">
                 {timeSlots.map((slot, i) => (
@@ -132,6 +131,7 @@ export default function ManageSessionsPage() {
                             : 'btn-light'}`}
                     disabled={slot.isBooked || slot.isBlocked}
                     onClick={() => handleSlotClick(slot.time)}
+                    style={{ minWidth: '4rem', fontSize: '1rem' }}
                   >
                     {slot.time}
                   </button>
@@ -154,6 +154,6 @@ export default function ManageSessionsPage() {
         </div>
       </div>
 
-    </>
+    </div>
   );
 }

@@ -21,7 +21,6 @@ export default function NewAppointmentPage({ user }) {
   useEffect(() => {
     async function loadDefaultData() {
       const res = await fetch("https://canada-holidays.ca//api/v1/provinces/ON");
-      console.log(res);
       if (res.ok) {
         const data = await res.json();
         setHolidays(data.province.holidays);
@@ -77,14 +76,10 @@ export default function NewAppointmentPage({ user }) {
       const res = await appointmentService.index(selectedDate, teacherId);
       setAppointments(res.appointments);
       const teacherProfiles = await appointmentService.getTeachers();
-      console.log(teacherProfiles);
       const teacherProfile = teacherProfiles.find(profile => String(profile.teacher._id) === teacherId);
-      console.log(teacherProfile);
       setTeacherProfile(teacherProfile);
       const allBlockedTimeSlots = res.sessions.flatMap(session => session.blockedTimeSlots || []);
       setSessions(allBlockedTimeSlots);
-      console.log(res);
-      console.log(allBlockedTimeSlots);
       setTimeSlots(renderTimeSlots(appointments, allBlockedTimeSlots, selectedDate));
 
     }
@@ -97,24 +92,20 @@ export default function NewAppointmentPage({ user }) {
   }, [appointments, sessions, selectedDate]);
 
   const handleDateClick = (date) => {
-    console.log('date', date);
     setSelectedDate(date);
   }
   const handleSlotClick = (time) => {
-    console.log('time', time);
     setSelectedSlot(time);
   }
   const renderTimeSlots = (appts = [], blockedTimeSlots = [], selectedDate) => {
     const slots = [];
     const filteredApp = appts.filter((appt) => {
       const apptDt = new Date(appt.date).toISOString().split('T')[0];
-      console.log(apptDt);
       return apptDt === selectedDate
 
     });
     const filteredBlock = blockedTimeSlots.filter((slot) => {
       const blockDate = new Date(slot.date).toISOString().split('T')[0];
-      console.log(blockDate);
       return blockDate === selectedDate;
     });
 
@@ -144,22 +135,22 @@ export default function NewAppointmentPage({ user }) {
       navigate('/appointments/all');
 
     } else {
-      if(!user){
+      if (!user) {
         navigate('/signin', { state: { from: location.pathname } });
       } else {
-         if (user.role === "student") {
-        const appointmentData = {
-          date: new Date(selectedDate),
-          startTime: selectedSlot,
-          teacher: teacherId
-        }
-        const newAppointment = await appointmentService.create(appointmentData);
-        setAppointments(appointments => [...appointments, newAppointment]);
-        navigate('/appointments/all');
+        if (user.role === "student") {
+          const appointmentData = {
+            date: new Date(selectedDate),
+            startTime: selectedSlot,
+            teacher: teacherId
+          }
+          const newAppointment = await appointmentService.create(appointmentData);
+          setAppointments(appointments => [...appointments, newAppointment]);
+          navigate('/appointments/all');
 
-      } else if(user.role ==="teacher") {
-        navigate('/sessions'); 
-      } 
+        } else if (user.role === "teacher") {
+          navigate('/sessions');
+        }
       }
     }
 
@@ -172,7 +163,7 @@ export default function NewAppointmentPage({ user }) {
   const togglePicker = () => {
     setShowPicker((prev) => !prev);
   }
- 
+
   function toLocalDateString(date) {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, '0');
@@ -182,9 +173,9 @@ export default function NewAppointmentPage({ user }) {
 
   return (
     < div className="container py-5 mt-5" style={{ maxWidth: '1000px' }} >
-      <div className="d-flex gap-4 flex-row justify-content-center">
+      <div className="d-flex flex-column flex-lg-row gap-4 justify-content-center align-items-center">
         {teacherProfile ? (
-          <div style={{ width: '22rem' }}>
+          <div className="w-100" style={{ maxWidth: '22rem' }}>
             <div className="card m-3 ml-4" >
               <img
                 src={teacherProfile.photo}
@@ -212,7 +203,7 @@ export default function NewAppointmentPage({ user }) {
         ) : (
           <p>Loading</p>
         )}
-        <div className="container" style={{ maxWidth: '700px' }}>
+        <div className="container">
           <div className="d-flex align-items-center mt-4">
             <div >
               <h3 className="mb-3">Select Time</h3>
@@ -250,9 +241,7 @@ export default function NewAppointmentPage({ user }) {
                 className={`btn border rounded-circle me-2 d-flex align-items-center custom-btn
                   ${selectedDate === value ? 'btn-secondary' : 'btn-light'}
                   ${isHoliday ? 'disabled-btn' : ''}`}
-
-                style={{ width: '60px', height: '60px', flexShrink: 0 }}
-
+                style={{ width: '4rem', height: '4rem', fontSize: '0.8rem' }}
                 onClick={() => !isHoliday && handleDateClick(value)}
                 disabled={isHoliday}
               >
