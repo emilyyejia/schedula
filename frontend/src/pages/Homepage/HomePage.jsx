@@ -35,7 +35,7 @@ export default function HomePage() {
     return (
         <div className="home-hero">
             <div className="text-center mb-5">
-                <div className="display-5 fw-bold mb-2">Find Your Perfect Tutor</div>
+                <div className="display-5 fw-bold mb-3">Find Your Perfect Tutor</div>
                 <p >Search and book online sessions with trusted educators.</p>
                 <div className="container mt-4" style={{ maxWidth: "320px" }}>
                     <div className="input-group">
@@ -86,7 +86,7 @@ export default function HomePage() {
                 </div>
             </div>
             <div className="container mt-5">
-                <h3 className="text-center mb-4">Why Choose Schedula?</h3>
+                <h3 className="text-center mb-5">Why Choose Schedula?</h3>
                 <div className="row text-center gx-1">
                     <div className="col-md-4">
                         <i className="bi bi-clock-history display-5 mb-2"></i>
@@ -106,19 +106,18 @@ export default function HomePage() {
                 </div>
             </div>
             <div className="text-center mt-5">
-                <h3>Ready to get started?</h3>
+                <h3 className="mb-3">Ready to get started?</h3>
                 <p>Sign up and book your first session in minutes.</p>
                 <Link to="/signin" className="btn btn-pink btn-lg mt-2">Create Free Account</Link>
             </div>
             <div className="container mt-5 text-center">
-                <h3 className="mb-4">About Us</h3>
+                <h3 className="mb-3">About Us</h3>
                 <p className="mb-2">
-                    Monday to Friday: <strong>10:00 AM – 5:00 PM</strong>
+                    Monday to Friday: 10:00 AM – 5:00 PM
                 </p>
                 <p className="mb-1">Room 904, OISE</p>
-                <p className="mb-0">252 Bloor St W, Toronto, ON M5S 1V6</p>
+                <p className="mb-2">252 Bloor St W, Toronto, ON M5S 1V6</p>
             </div>
-            
                     <GoogleMap     
                     />   
             
