@@ -12,17 +12,13 @@
 ## Description
 Schedula is a modern scheduling platform that lets students discover and book sessions with trusted tutors in minutes. It offers:
 
-- Flexible date selection with a local‑timezone calendar widget
+- No back-and-forth — students can book, reschedule, or cancel sessions based on teachers' real-time availability.
 
-- Real‑time availability showing booked and blocked time slots
+- Showcase your expertise with subjects, bios, and profile photos to attract the right learners.
 
-- Teacher profiles complete with subjects, bios, and photos
-
-- Easy rescheduling & cancellation workflows
+- Easily block off unavailable times and manage your weekly calendar. Students see only what you want them to see.
 
 Schedula streamlines the entire process—from finding the right tutor to confirming your session.
-
-
 
 
 ## Screenshot
@@ -52,19 +48,19 @@ Schedula streamlines the entire process—from finding the right tutor to confir
 ## Getting Started
 
 ### Instructions
+#### Students
+1. Browse tutors on the home page, filter by subject or name
 
-1. Browse tutors
-on the home page, filter by subject or name
+2. View profiles to see subjects, bio, and availability
 
-2. View profiles
-to see subjects, bio, and availability
+3. Select a date to book an available time slot
 
-3. Select a date
-book an available time slot
+4. Manage your appointments under “Dashboard”—reschedule or cancel with one click.
 
-4. Manage your appointments
-under “Dashboard”—reschedule or cancel with one click.
+#### Teachers
+1.Log in and block off any unavailable time slots. Students can only book when you're free.
 
+2.View all your upcoming appointments under the Dashboard section.
 
 ### Link
 
