@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import './HomePage.css';
 import * as teacherService from '../../services/teachersService';
+import GoogleMap from '../../components/Map/Map';
 import { useEffect } from 'react';
 
 export default function HomePage() {
@@ -109,18 +110,18 @@ export default function HomePage() {
                 <p>Sign up and book your first session in minutes.</p>
                 <Link to="/signin" className="btn btn-pink btn-lg mt-2">Create Free Account</Link>
             </div>
-            <div className="text-center mt-5">
-                <div className="text-center mt-5 p-4">
-                    <h3>Working Hours</h3>
-                    <p>Monday to Friday: 10:00 AM - 5:00 PM</p>
-                    <p>Saturday: Closed</p>
-                    <p>Sunday: Closed</p>
-
-                    <h3 className="mt-4">Location</h3>
-                    <p>Room 904, OISE, 252 Bloor St W, Toronto, ON M5S 1V6</p>
-                </div>
-
+            <div className="container mt-5 text-center">
+                <h3 className="mb-4">About Us</h3>
+                <p className="mb-2">
+                    Monday to Friday: <strong>10:00 AM – 5:00 PM</strong>
+                </p>
+                <p className="mb-1">Room 904, OISE</p>
+                <p className="mb-0">252 Bloor St W, Toronto, ON M5S 1V6</p>
             </div>
+            
+                    <GoogleMap     
+                    />   
+            
 
         </div>
     );

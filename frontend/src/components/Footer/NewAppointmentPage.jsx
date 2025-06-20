@@ -12,7 +12,7 @@ export default function NewAppointmentPage({ user }) {
   const [appointments, setAppointments] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [teacherProfile, setTeacherProfile] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(tomorrow.toISOString().split('T')[0]);
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [showPicker, setShowPicker] = useState(false);
