@@ -47,7 +47,7 @@ export default function LogInPage({ setUser }) {
       </div>
       <div className='row text-center'>
         <form autoComplete="off" className="d-grid justify-content-center mb-4" onSubmit={handleSubmit}>
-          <Form.Label htmlFor='email'>Email</Form.Label>
+          <Form.Label htmlFor='email' className="fs-5">Email</Form.Label>
           <Form.Control
             className="w-100"
             type="email"
@@ -57,7 +57,7 @@ export default function LogInPage({ setUser }) {
             onChange={handleChange}
             required
           />
-          <Form.Label>Password</Form.Label>
+          <Form.Label className="fs-5">Password</Form.Label>
           <Form.Control
             type="password"
             name="password"
