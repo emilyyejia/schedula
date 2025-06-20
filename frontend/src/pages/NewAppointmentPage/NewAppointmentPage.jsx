@@ -144,6 +144,9 @@ export default function NewAppointmentPage({ user }) {
       navigate('/appointments/all');
 
     } else {
+      if(!user){
+        navigate('/signin', { state: { from: location.pathname } });
+      } 
       if (user.role === "student") {
         const appointmentData = {
           date: new Date(selectedDate),
@@ -155,11 +158,8 @@ export default function NewAppointmentPage({ user }) {
         navigate('/appointments/all');
 
       } else if(user.role ==="teacher") {
-        navigate('/sessions');
-        
-      } else {
-        navigate('/signin', { state: { from: location.pathname } });
-      }
+        navigate('/sessions'); 
+      } 
 
     }
 
