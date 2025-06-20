@@ -28,7 +28,7 @@ Schedula streamlines the entire process—from finding the right tutor to confir
 | Booking Page | <img src="./frontend/src/assets/book.png" alt="booking page" height="400" width="800"> |
 | Confirmation | <img src="./frontend/src/assets/email.png" alt="booking page" height="400" width="800"> |
 | Student Dashboard | <img src="./frontend/src/assets/studnetdashboard.png" alt="student dashboard" height="400" width="800"> |
-| Blocking Page     | <img src="./frontend/src/assets/blocktime.png" alt="blocking page" height="400" width="800"> |
+| Set Time Page     | <img src="./frontend/src/assets/blocktime.png" alt="set time page" height="400" width="800"> |
 | Teacher Sessions  | <img src="./frontend/src/assets/sessions.png" alt="teacher sessions" height="400" width="800"> |
 
 
